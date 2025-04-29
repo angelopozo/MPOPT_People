@@ -4,7 +4,7 @@ package utils;
  *
  * @author Angelo
  */
-public class Constants {
+public class Constant {
     public static final String ARRAYLIST = "ArrayList";
     public static final String HASHMAP = "HashMap";
     public static final String FILE = "File";
