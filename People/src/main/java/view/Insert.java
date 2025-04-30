@@ -413,20 +413,17 @@ public class Insert extends javax.swing.JDialog {
              
 
   String nombre = name.getText();
-    String nifi = Nif.getText(); // Corrected the variable name
+    String nif = Nif.getText(); // Corrected the variable name
     String email = Email.getText();
 
-    if (nifi.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "NIF cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+   
 
     if (!email.matches("^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
         JOptionPane.showMessageDialog(this, "Invalid email format.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    Person p = new Person(nifi, nombre, email); // Ensure the constructor exists
+    Person p = new Person(nif, nombre, email); // Ensure the constructor exists
     try {
         DAOFile dao = new DAOFile();
         dao.insert(p);
