@@ -428,6 +428,11 @@ private boolean isValidEmail(String email) {
   String nombre = name.getText();
     String nif = Nif.getText();
     String email = Email.getText();
+    
+    if (nif.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "NIF cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
 
     if (!email.matches("^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
         JOptionPane.showMessageDialog(this, "Invalid email format.", "Error", JOptionPane.ERROR_MESSAGE);
