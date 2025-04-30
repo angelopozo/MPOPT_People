@@ -413,10 +413,10 @@ public class Insert extends javax.swing.JDialog {
              
 
   String nombre = name.getText();
-    String nif = Nif.getText(); // Corrected the variable name
+    String nifi = Nif.getText(); // Corrected the variable name
     String email = Email.getText();
 
-    if (nif.isEmpty()) {
+    if (nifi.isEmpty()) {
         JOptionPane.showMessageDialog(this, "NIF cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
@@ -426,7 +426,7 @@ public class Insert extends javax.swing.JDialog {
         return;
     }
 
-    Person p = new Person(nif, nombre, email); // Ensure the constructor exists
+    Person p = new Person(nifi, nombre, email); // Ensure the constructor exists
     try {
         DAOFile dao = new DAOFile();
         dao.insert(p);
