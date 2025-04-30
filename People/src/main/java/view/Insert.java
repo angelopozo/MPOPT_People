@@ -426,25 +426,25 @@ private boolean isValidEmail(String email) {
 
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
              
-    String nombre = name.getText();
-    String nifText = Nif.getText(); // Obtener NIF del campo de texto
-    String emailText = Email.getText();
 
-    if (nifText.isEmpty()) {
+    String nombre = name.getText();
+    String nif = Nif.getText(); // Corrected the variable name
+    String email = Email.getText();
+
+    if (nif.isEmpty()) {
         JOptionPane.showMessageDialog(this, "NIF cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    if (!emailText.matches("^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
+    if (!email.matches("^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
         JOptionPane.showMessageDialog(this, "Invalid email format.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
-    // Crear una nueva instancia de Person con los datos introducidos
-    Person person = new Person(nifText, nombre, emailText);
+    Person p = new Person(nif, nombre, email); // Ensure the constructor exists
     try {
         DAOFile dao = new DAOFile();
-        dao.insert(person);
+        dao.insert(p);
         JOptionPane.showMessageDialog(this, "Persona guardada correctamente.");
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
