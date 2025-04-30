@@ -21,6 +21,8 @@ import model.dao.DAOFile;
 import model.entity.Person;
 import org.jdatepicker.DateModel;
 import org.jdatepicker.JDatePicker;
+import java.awt.dnd.DropTargetListener;
+
 
 /**
  * Interface used to register a person. It is mandatory to enter at least the 
@@ -314,13 +316,21 @@ public class Insert extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+private boolean isValidEmail(String email) {
+    return email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
+}
 
     private void showInsert() {
-        if (!name.getText().isEmpty() && !Nif.isEditable()) {
-            insert.setEnabled(true);
-        } else {
-            insert.setEnabled(false);
-        }
+       String emailText = email.getText();
+
+    if (!name.getText().isEmpty() &&
+        !Nif.isEditable() &&
+        isValidEmail(emailText)) {
+
+        insert.setEnabled(true);
+    } else {
+        insert.setEnabled(false);
+    }
     }
 
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
