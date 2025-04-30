@@ -427,7 +427,7 @@ private boolean isValidEmail(String email) {
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
              
 
-    String nombre = name.getText();
+  String nombre = name.getText();
     String nif = Nif.getText(); // Corrected the variable name
     String email = Email.getText();
 
@@ -449,7 +449,6 @@ private boolean isValidEmail(String email) {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-
     }//GEN-LAST:event_insertActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
