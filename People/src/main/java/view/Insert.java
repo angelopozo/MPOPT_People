@@ -51,6 +51,11 @@ public class Insert extends javax.swing.JDialog {
     public JTextField getNam() {
         return name;
     }
+    public JTextField getEm() {
+        return Email;
+    }
+    
+    
 
     public JDatePicker getDateOfBirth() {
         return dateOfBirth;
@@ -75,7 +80,7 @@ public class Insert extends javax.swing.JDialog {
         java.awt.GridBagConstraints gridBagConstraints;
 
         insert = new javax.swing.JButton();
-        name = new javax.swing.JTextField();
+        Email = new javax.swing.JTextField();
         reset = new javax.swing.JButton();
         photo = new javax.swing.JLabel();
         NIF = new javax.swing.JLabel();
@@ -86,7 +91,7 @@ public class Insert extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         email = new javax.swing.JLabel();
-        Email = new javax.swing.JTextField();
+        name = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Insert - People v1.1.0");
@@ -111,20 +116,20 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
         getContentPane().add(insert, gridBagConstraints);
 
-        name.setMaximumSize(new java.awt.Dimension(400, 22));
-        name.setMinimumSize(new java.awt.Dimension(400, 22));
-        name.setPreferredSize(new java.awt.Dimension(400, 22));
-        name.addActionListener(new java.awt.event.ActionListener() {
+        Email.setMaximumSize(new java.awt.Dimension(400, 22));
+        Email.setMinimumSize(new java.awt.Dimension(400, 22));
+        Email.setPreferredSize(new java.awt.Dimension(400, 22));
+        Email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameActionPerformed(evt);
+                EmailActionPerformed(evt);
             }
         });
-        name.addKeyListener(new java.awt.event.KeyAdapter() {
+        Email.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                nameKeyReleased(evt);
+                EmailKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                nameKeyTyped(evt);
+                EmailKeyTyped(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -134,7 +139,7 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
-        getContentPane().add(name, gridBagConstraints);
+        getContentPane().add(Email, gridBagConstraints);
 
         reset.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         reset.setText("RESET");
@@ -288,20 +293,20 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
         getContentPane().add(email, gridBagConstraints);
 
-        Email.setMaximumSize(new java.awt.Dimension(400, 22));
-        Email.setMinimumSize(new java.awt.Dimension(400, 22));
-        Email.setPreferredSize(new java.awt.Dimension(400, 22));
-        Email.addActionListener(new java.awt.event.ActionListener() {
+        name.setMaximumSize(new java.awt.Dimension(400, 22));
+        name.setMinimumSize(new java.awt.Dimension(400, 22));
+        name.setPreferredSize(new java.awt.Dimension(400, 22));
+        name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EmailActionPerformed(evt);
+                nameActionPerformed(evt);
             }
         });
-        Email.addKeyListener(new java.awt.event.KeyAdapter() {
+        name.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                EmailKeyReleased(evt);
+                nameKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                EmailKeyTyped(evt);
+                nameKeyTyped(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -311,32 +316,17 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
-        getContentPane().add(Email, gridBagConstraints);
+        getContentPane().add(name, gridBagConstraints);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-private boolean isValidEmail(String email) {
-    return email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
-}
 
-    private void showInsert() {
-       String emailText = email.getText();
-
-    if (!name.getText().isEmpty() &&
-        !Nif.isEditable() &&
-        isValidEmail(emailText)) {
-
-        insert.setEnabled(true);
-    } else {
-        insert.setEnabled(false);
-    }
-    }
 
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
         Nif.setEditable(true);
         Nif.setText("");
-        name.setText("");
+        Email.setText("");
         email.setText("");
         
         photo.setIcon(null);
@@ -361,18 +351,13 @@ private boolean isValidEmail(String email) {
         }
     }//GEN-LAST:event_NifKeyTyped
 
-    private void nameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyTyped
-        if (!isLetter(evt.getKeyChar()) && evt.getKeyChar() != KeyEvent.VK_BACK_SPACE && evt.getKeyChar() != KeyEvent.VK_DELETE) {
-            JOptionPane.showMessageDialog(this, "Type only uppercase or lowercase letters, hyphens, and whitespace.", this.getTitle(), JOptionPane.ERROR_MESSAGE);
-            evt.consume();
-        } else if (isLetter(evt.getKeyChar()) || evt.getKeyChar() == KeyEvent.VK_BACK_SPACE || evt.getKeyChar() == KeyEvent.VK_DELETE) {
-            showInsert();
-        }
-    }//GEN-LAST:event_nameKeyTyped
+    private void EmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_EmailKeyTyped
+       
+    }//GEN-LAST:event_EmailKeyTyped
 
-    private void nameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyReleased
-        showInsert();
-    }//GEN-LAST:event_nameKeyReleased
+    private void EmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_EmailKeyReleased
+       
+    }//GEN-LAST:event_EmailKeyReleased
 
     private void photoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoMouseClicked
         photo.setIcon(null);
@@ -382,7 +367,7 @@ private boolean isValidEmail(String email) {
         if (Nif.getText().length() == 8) {
             Nif.setText(calculateNifLetter(Nif.getText()));
             Nif.setEditable(false);
-            showInsert();
+            
         }
     }//GEN-LAST:event_NifKeyReleased
 
@@ -391,20 +376,20 @@ private boolean isValidEmail(String email) {
             evt.consume();
             Nif.setText(calculateNifLetter(Nif.getText()));
             Nif.setEditable(false);
-            showInsert();
+          
         }
     }//GEN-LAST:event_NifKeyPressed
 
-    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameActionPerformed
-
     private void EmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmailActionPerformed
-       
+        // TODO add your handling code here:
     }//GEN-LAST:event_EmailActionPerformed
 
-    private void EmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_EmailKeyReleased
-       String email = Email.getText(); 
+    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
+       
+    }//GEN-LAST:event_nameActionPerformed
+
+    private void nameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyReleased
+       String email = name.getText(); 
 
     
     String emailRegex = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
@@ -412,9 +397,9 @@ private boolean isValidEmail(String email) {
     if (!email.matches(emailRegex)) {
        JOptionPane.showMessageDialog(this, "Invalid email format.", this.getTitle(), JOptionPane.ERROR_MESSAGE);
     }
-    }//GEN-LAST:event_EmailKeyReleased
+    }//GEN-LAST:event_nameKeyReleased
 
-    private void EmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_EmailKeyTyped
+    private void nameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyTyped
        char c = evt.getKeyChar();
     if (!Character.isLetterOrDigit(c) &&
         c != '@' && c != '.' && c != '-' && c != '_' &&
@@ -422,7 +407,7 @@ private boolean isValidEmail(String email) {
         JOptionPane.showMessageDialog(this, "Caracter no válido para un email.", this.getTitle(), JOptionPane.ERROR_MESSAGE);
         evt.consume();
     }
-    }//GEN-LAST:event_EmailKeyTyped
+    }//GEN-LAST:event_nameKeyTyped
 
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
              
