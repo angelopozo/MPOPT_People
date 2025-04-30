@@ -46,15 +46,15 @@ public class DAOFile implements IDAO {
             String data[] = line.split("\t");
             if (data[1].equals(p.getNif())) {
                 Date date = null;
-                if (!data[2].equals("null")) {
+                if (!data[3].equals("null")) {
                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                    date = dateFormat.parse(data[2]);
+                    date = dateFormat.parse(data[3]);
                 }
                 ImageIcon photo = null;
-                if (!data[3].equals("null")) {
-                    photo = new ImageIcon(data[3]);
+                if (!data[4].equals("null")) {
+                    photo = new ImageIcon(data[4]);
                 }
-                personToRead = new Person(data[0], data[1], date, photo);
+                personToRead = new Person(data[0], data[1],data[2], date, photo);
                 break;
             }
             line = br.readLine();
@@ -75,15 +75,15 @@ public class DAOFile implements IDAO {
         while (line != null) {
             String data[] = line.split("\t");
             Date date = null;
-            if (!data[2].equals("null")) {
+            if (!data[3].equals("null")) {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                date = dateFormat.parse(data[2]);
+                date = dateFormat.parse(data[3]);
             }
             ImageIcon photo = null;
-            if (!data[3].equals("null")) {
-                photo = new ImageIcon(data[3]);
+            if (!data[4].equals("null")) {
+                photo = new ImageIcon(data[4]);
             }
-            people.add(new Person(data[0], data[1], date, photo));
+            people.add(new Person(data[0], data[1],data[2], date, photo));
             line = br.readLine();
         }
         br.close();
