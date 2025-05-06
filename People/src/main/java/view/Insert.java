@@ -19,7 +19,7 @@ import org.jdatepicker.DateModel;
 import org.jdatepicker.JDatePicker;
 
 /**
- * Interface used to register a person. It is mandatory to enter at least the 
+ * Interface used to register a person. It is mandatory to enter at least the
  * NIF and the name.
  * @author Francesc Perez
  * @version 1.1.0
@@ -28,12 +28,11 @@ public class Insert extends javax.swing.JDialog {
 
     public Insert(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        
+
         initComponents();
         PromptSupport promptSupport1 = new PromptSupport("Enter NIF number, letter is calculated", nif);
         PromptSupport promptSupport2 = new PromptSupport("Enter full name", name);
-        
-        
+
         DropPhotoListener d = new DropPhotoListener(photo, this);
         DropTarget dropTarget = new DropTarget(photo, d);
         insert.setEnabled(false);

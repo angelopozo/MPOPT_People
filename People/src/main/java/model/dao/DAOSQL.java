@@ -217,4 +217,19 @@ public class DAOSQL implements IDAO {
             f.delete();
     }
 
+    @Override
+    public int count() throws Exception {
+        String sql = "SELECT COUNT(*) FROM people";
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            return rs.next() ? rs.getInt(1) : 0;
+        }
+    }
+
+    private Connection getConnection() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

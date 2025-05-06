@@ -68,6 +68,37 @@ public class ControllerImplementation implements IController, ActionListener {
         ((JButton) (dSS.getAccept()[0])).addActionListener(this);
     }
 
+    public ControllerImplementation(IDAO dao, Menu menu) {
+        this.dao = dao;
+        this.menu = menu;
+        initView();
+        initController();
+        this.dSS = null;
+    }
+    
+    private void initView(){
+        menu.setVisible(true);
+        updatePeopleCount();
+    }  
+    
+    private void initController() {
+        menu.getCount().addActionListener(e -> updatePeopleCount());
+        
+        // Actualizar conteo después de operaciones CRUD
+        menu.getInsert().addActionListener(e -> updatePeopleCount());
+        menu.getDelete().addActionListener(e -> updatePeopleCount());
+        menu.getDeleteAll().addActionListener(e -> updatePeopleCount());
+    }
+    
+    private void updatePeopleCount() {
+        try {
+            int count = dao.count();
+            menu.updatePeopleCount(count);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     /**
      * With this method, the application is started, asking the user for the chosen storage system.
      */
