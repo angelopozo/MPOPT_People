@@ -30,7 +30,7 @@ public class Insert extends javax.swing.JDialog {
         super(parent, modal);
 
         initComponents();
-        PromptSupport promptSupport1 = new PromptSupport("Enter NIF number, letter is calculated", nif);
+        PromptSupport promptSupport1 = new PromptSupport("Enter NIF number, letter is calculated", Nif);
         PromptSupport promptSupport2 = new PromptSupport("Enter full name", name);
 
         DropPhotoListener d = new DropPhotoListener(photo, this);
@@ -55,7 +55,7 @@ public class Insert extends javax.swing.JDialog {
     }
 
     public JTextField getNif() {
-        return nif;
+        return Nif;
     }
 
     public JLabel getPhoto() {
@@ -78,7 +78,7 @@ public class Insert extends javax.swing.JDialog {
         reset = new javax.swing.JButton();
         photo = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        nif = new javax.swing.JTextField();
+        Nif = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         dateOfBirth = new org.jdatepicker.JDatePicker();
@@ -188,18 +188,18 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(24, 12, 12, 12);
         getContentPane().add(jLabel5, gridBagConstraints);
 
-        nif.setMaximumSize(new java.awt.Dimension(400, 22));
-        nif.setMinimumSize(new java.awt.Dimension(400, 22));
-        nif.setPreferredSize(new java.awt.Dimension(400, 22));
-        nif.addKeyListener(new java.awt.event.KeyAdapter() {
+        Nif.setMaximumSize(new java.awt.Dimension(400, 22));
+        Nif.setMinimumSize(new java.awt.Dimension(400, 22));
+        Nif.setPreferredSize(new java.awt.Dimension(400, 22));
+        Nif.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                nifKeyPressed(evt);
+                NifKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                nifKeyReleased(evt);
+                NifKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                nifKeyTyped(evt);
+                NifKeyTyped(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -209,7 +209,7 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(24, 12, 12, 24);
-        getContentPane().add(nif, gridBagConstraints);
+        getContentPane().add(Nif, gridBagConstraints);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Date of Birth");
@@ -252,7 +252,7 @@ public class Insert extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void showInsert() {
-        if (!name.getText().isEmpty() && !nif.isEditable()) {
+        if (!name.getText().isEmpty() && !Nif.isEditable()) {
             insert.setEnabled(true);
         } else {
             insert.setEnabled(false);
@@ -260,8 +260,8 @@ public class Insert extends javax.swing.JDialog {
     }
 
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
-        nif.setEditable(true);
-        nif.setText("");
+        Nif.setEditable(true);
+        Nif.setText("");
         name.setText("");
         photo.setIcon(null);
         //We reset the calendar date to the current date ...
@@ -278,12 +278,12 @@ public class Insert extends javax.swing.JDialog {
         insert.setEnabled(false);
     }//GEN-LAST:event_resetActionPerformed
 
-    private void nifKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nifKeyTyped
+    private void NifKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NifKeyTyped
         if (!isNumber(evt.getKeyChar()) && evt.getKeyChar() != KeyEvent.VK_BACK_SPACE && evt.getKeyChar() != KeyEvent.VK_DELETE) {
             JOptionPane.showMessageDialog(this, "Type only numbers [0-9]", this.getTitle(), JOptionPane.ERROR_MESSAGE);
             evt.consume();
         }
-    }//GEN-LAST:event_nifKeyTyped
+    }//GEN-LAST:event_NifKeyTyped
 
     private void nameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyTyped
         if (!isLetter(evt.getKeyChar()) && evt.getKeyChar() != KeyEvent.VK_BACK_SPACE && evt.getKeyChar() != KeyEvent.VK_DELETE) {
@@ -302,24 +302,25 @@ public class Insert extends javax.swing.JDialog {
         photo.setIcon(null);
     }//GEN-LAST:event_photoMouseClicked
 
-    private void nifKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nifKeyReleased
-        if (nif.getText().length() == 8) {
-            nif.setText(calculateNifLetter(nif.getText()));
-            nif.setEditable(false);
+    private void NifKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NifKeyReleased
+        if (Nif.getText().length() == 8) {
+            Nif.setText(calculateNifLetter(Nif.getText()));
+            Nif.setEditable(false);
             showInsert();
         }
-    }//GEN-LAST:event_nifKeyReleased
+    }//GEN-LAST:event_NifKeyReleased
 
-    private void nifKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nifKeyPressed
-        if (nif.getText().length() == 8) {
+    private void NifKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NifKeyPressed
+        if (Nif.getText().length() == 8) {
             evt.consume();
-            nif.setText(calculateNifLetter(nif.getText()));
-            nif.setEditable(false);
+            Nif.setText(calculateNifLetter(Nif.getText()));
+            Nif.setEditable(false);
             showInsert();
         }
-    }//GEN-LAST:event_nifKeyPressed
+    }//GEN-LAST:event_NifKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Nif;
     private org.jdatepicker.JDatePicker dateOfBirth;
     private javax.swing.JButton insert;
     private javax.swing.JLabel jLabel1;
@@ -327,7 +328,6 @@ public class Insert extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField name;
-    private javax.swing.JTextField nif;
     private javax.swing.JLabel photo;
     private javax.swing.JButton reset;
     // End of variables declaration//GEN-END:variables
