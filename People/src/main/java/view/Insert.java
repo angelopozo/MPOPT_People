@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
+
+
 import java.util.Date;
 import java.util.HashSet;
 import javax.swing.JButton;
@@ -413,7 +415,7 @@ public class Insert extends javax.swing.JDialog {
              
 
   String nombre = name.getText();
-    String nif = Nif.getText(); // Corrected the variable name
+    String DNI = Nif.getText(); // Corrected the variable name
     String email = Email.getText();
 
    
@@ -423,7 +425,7 @@ public class Insert extends javax.swing.JDialog {
         return;
     }
 
-    Person p = new Person(nif, nombre, email); // Ensure the constructor exists
+    Person p = new Person(DNI, nombre, email); // Ensure the constructor exists
     try {
         DAOFile dao = new DAOFile();
         dao.insert(p);
