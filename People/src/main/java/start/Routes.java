@@ -9,9 +9,10 @@ import java.io.File;
  */
 public enum Routes {
 
+    USERS(null, null, null, null, null, null, null, null, "user"),
     APPIMAGES("images", null, null, null, null, null, null, null, null),
-    FILE ("File", "Photos", "dataFile.txt", null, null, null, null, null, null),
-    FILES ("FileSer", null, "dataFile.ser", null, null, null, null, null, null ),
+    FILE("File", "Photos", "dataFile.txt", null, null, null, null, null, null),
+    FILES("FileSer", null, "dataFile.ser", null, null, null, null, null, null),
     DB("SQL_DataBase", "Photos", null, "jdbc:mysql://localhost:3306", "?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "", "people", "person"),
     DBO("JPA_DataBase", null, null, "objectdb:db/people.odb;user=admin;password=admin", null, null, null, null, null);
 
@@ -24,11 +25,10 @@ public enum Routes {
     private final String dbServerPassword;
     private final String dbServerDB;
     private final String dbServerTABLE;
-    
-    
-    private Routes (String folderPath, String folderPhotos, String dataFile,
+
+    private Routes(String folderPath, String folderPhotos, String dataFile,
             String dbServerAddress, String dbServerComOpt, String dbServerUser,
-            String dbServerPassword, String dbServerDB, String dbServerTABLE){
+            String dbServerPassword, String dbServerDB, String dbServerTABLE) {
         String userDir = System.getProperty("user.dir");
         this.folderPath = userDir + File.separator + folderPath;
         this.folderPhotos = this.folderPath + File.separator + folderPhotos;
@@ -76,9 +76,5 @@ public enum Routes {
     public String getDbServerTABLE() {
         return dbServerTABLE;
     }
-    
-    
-    
-    
-    
+
 }
