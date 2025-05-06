@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import static utils.DataValidation.calculateNifLetter;
 import static utils.DataValidation.isLetter;
 import static utils.DataValidation.isNumber;
@@ -11,12 +12,17 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.dao.DAOFile;
+import model.entity.Person;
 import org.jdatepicker.DateModel;
 import org.jdatepicker.JDatePicker;
+import java.awt.dnd.DropTargetListener;
+
 
 /**
  * Interface used to register a person. It is mandatory to enter at least the
@@ -49,6 +55,11 @@ public class Insert extends javax.swing.JDialog {
     public JTextField getNam() {
         return name;
     }
+    public JTextField getEm() {
+        return Email;
+    }
+    
+    
 
     public JDatePicker getDateOfBirth() {
         return dateOfBirth;
@@ -73,8 +84,7 @@ public class Insert extends javax.swing.JDialog {
         java.awt.GridBagConstraints gridBagConstraints;
 
         insert = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        name = new javax.swing.JTextField();
+        Email = new javax.swing.JTextField();
         reset = new javax.swing.JButton();
         photo = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -82,6 +92,11 @@ public class Insert extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         dateOfBirth = new org.jdatepicker.JDatePicker();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        email = new javax.swing.JLabel();
+        name = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Insert - People v1.1.0");
@@ -93,46 +108,43 @@ public class Insert extends javax.swing.JDialog {
         insert.setMaximumSize(new java.awt.Dimension(187, 33));
         insert.setMinimumSize(new java.awt.Dimension(187, 33));
         insert.setPreferredSize(new java.awt.Dimension(187, 33));
+        insert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
         getContentPane().add(insert, gridBagConstraints);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Name");
-        jLabel1.setMaximumSize(new java.awt.Dimension(100, 22));
-        jLabel1.setMinimumSize(new java.awt.Dimension(100, 22));
-        jLabel1.setPreferredSize(new java.awt.Dimension(100, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
-        getContentPane().add(jLabel1, gridBagConstraints);
-
-        name.setMaximumSize(new java.awt.Dimension(400, 22));
-        name.setMinimumSize(new java.awt.Dimension(400, 22));
-        name.setPreferredSize(new java.awt.Dimension(400, 22));
-        name.addKeyListener(new java.awt.event.KeyAdapter() {
+        Email.setMaximumSize(new java.awt.Dimension(400, 22));
+        Email.setMinimumSize(new java.awt.Dimension(400, 22));
+        Email.setPreferredSize(new java.awt.Dimension(400, 22));
+        Email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EmailActionPerformed(evt);
+            }
+        });
+        Email.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                nameKeyReleased(evt);
+                EmailKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                nameKeyTyped(evt);
+                EmailKeyTyped(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
-        getContentPane().add(name, gridBagConstraints);
+        getContentPane().add(Email, gridBagConstraints);
 
         reset.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         reset.setText("RESET");
@@ -147,7 +159,7 @@ public class Insert extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
@@ -175,18 +187,18 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(24, 24, 12, 12);
         getContentPane().add(photo, gridBagConstraints);
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setText("NIF");
-        jLabel5.setMaximumSize(new java.awt.Dimension(100, 22));
-        jLabel5.setMinimumSize(new java.awt.Dimension(100, 22));
-        jLabel5.setPreferredSize(new java.awt.Dimension(100, 22));
+        NIF.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        NIF.setText("NIF");
+        NIF.setMaximumSize(new java.awt.Dimension(100, 22));
+        NIF.setMinimumSize(new java.awt.Dimension(100, 22));
+        NIF.setPreferredSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(24, 12, 12, 12);
-        getContentPane().add(jLabel5, gridBagConstraints);
+        getContentPane().add(NIF, gridBagConstraints);
 
         Nif.setMaximumSize(new java.awt.Dimension(400, 22));
         Nif.setMinimumSize(new java.awt.Dimension(400, 22));
@@ -230,7 +242,7 @@ public class Insert extends javax.swing.JDialog {
         jLabel2.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
@@ -241,11 +253,88 @@ public class Insert extends javax.swing.JDialog {
         dateOfBirth.setPreferredSize(new java.awt.Dimension(350, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
         getContentPane().add(dateOfBirth, gridBagConstraints);
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel11.setText("Date of Birth");
+        jLabel11.setMaximumSize(new java.awt.Dimension(150, 22));
+        jLabel11.setMinimumSize(new java.awt.Dimension(150, 22));
+        jLabel11.setPreferredSize(new java.awt.Dimension(150, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
+        getContentPane().add(jLabel11, gridBagConstraints);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setText("NIF");
+        jLabel6.setMaximumSize(new java.awt.Dimension(100, 22));
+        jLabel6.setMinimumSize(new java.awt.Dimension(100, 22));
+        jLabel6.setPreferredSize(new java.awt.Dimension(100, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(24, 12, 12, 12);
+        getContentPane().add(jLabel6, gridBagConstraints);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setText("Name");
+        jLabel3.setMaximumSize(new java.awt.Dimension(100, 22));
+        jLabel3.setMinimumSize(new java.awt.Dimension(100, 22));
+        jLabel3.setPreferredSize(new java.awt.Dimension(100, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
+        getContentPane().add(jLabel3, gridBagConstraints);
+
+        email.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        email.setText("Email");
+        email.setMaximumSize(new java.awt.Dimension(150, 22));
+        email.setMinimumSize(new java.awt.Dimension(150, 22));
+        email.setPreferredSize(new java.awt.Dimension(150, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
+        getContentPane().add(email, gridBagConstraints);
+
+        name.setMaximumSize(new java.awt.Dimension(400, 22));
+        name.setMinimumSize(new java.awt.Dimension(400, 22));
+        name.setPreferredSize(new java.awt.Dimension(400, 22));
+        name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameActionPerformed(evt);
+            }
+        });
+        name.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                nameKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nameKeyTyped(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
+        getContentPane().add(name, gridBagConstraints);
 
         pack();
         setLocationRelativeTo(null);
@@ -285,18 +374,13 @@ public class Insert extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_NifKeyTyped
 
-    private void nameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyTyped
-        if (!isLetter(evt.getKeyChar()) && evt.getKeyChar() != KeyEvent.VK_BACK_SPACE && evt.getKeyChar() != KeyEvent.VK_DELETE) {
-            JOptionPane.showMessageDialog(this, "Type only uppercase or lowercase letters, hyphens, and whitespace.", this.getTitle(), JOptionPane.ERROR_MESSAGE);
-            evt.consume();
-        } else if (isLetter(evt.getKeyChar()) || evt.getKeyChar() == KeyEvent.VK_BACK_SPACE || evt.getKeyChar() == KeyEvent.VK_DELETE) {
-            showInsert();
-        }
-    }//GEN-LAST:event_nameKeyTyped
+    private void EmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_EmailKeyTyped
+       
+    }//GEN-LAST:event_EmailKeyTyped
 
-    private void nameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyReleased
-        showInsert();
-    }//GEN-LAST:event_nameKeyReleased
+    private void EmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_EmailKeyReleased
+       
+    }//GEN-LAST:event_EmailKeyReleased
 
     private void photoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoMouseClicked
         photo.setIcon(null);
@@ -318,15 +402,15 @@ public class Insert extends javax.swing.JDialog {
             showInsert();
         }
     }//GEN-LAST:event_NifKeyPressed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Nif;
     private org.jdatepicker.JDatePicker dateOfBirth;
+    private javax.swing.JLabel email;
     private javax.swing.JButton insert;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField name;
     private javax.swing.JLabel photo;
     private javax.swing.JButton reset;

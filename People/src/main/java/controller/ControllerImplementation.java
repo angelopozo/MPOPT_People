@@ -252,7 +252,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     private void handleInsertPerson() {
-        Person p = new Person(insert.getNam().getText(), insert.getNif().getText());
+        Person p = new Person(insert.getNam().getText(), insert.getNif().getText(), insert.getName());
         if (insert.getDateOfBirth().getModel().getValue() != null) {
             p.setDateOfBirth(((GregorianCalendar) insert.getDateOfBirth().getModel().getValue()).getTime());
         }
@@ -342,7 +342,7 @@ public class ControllerImplementation implements IController, ActionListener {
 
     public void handleUpdatePerson() {
         if (update != null) {
-            Person p = new Person(update.getNam().getText(), update.getNif().getText());
+            Person p = new Person(update.getNam().getText(), update.getNif().getText(), update.getName());
             if ((update.getDateOfBirth().getModel().getValue()) != null) {
                 p.setDateOfBirth(((GregorianCalendar) update.getDateOfBirth().getModel().getValue()).getTime());
             }
