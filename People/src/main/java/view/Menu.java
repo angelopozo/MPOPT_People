@@ -1,11 +1,13 @@
 package view;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import model.entity.Person;
 
 /**
  * This class defines the main menu of the application. Actions that can be 
@@ -14,10 +16,10 @@ import javax.swing.JOptionPane;
  * @version 1.1.0
  */
 public class Menu extends javax.swing.JFrame {
-
+    
     public Menu() {
         initComponents();
-         try {
+        try {
             setIconImage(new ImageIcon(ImageIO.read(new File("images/logo.png"))).getImage());
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Application logo is not available", "WARNING MESSAGE", JOptionPane.WARNING_MESSAGE);
@@ -47,7 +49,15 @@ public class Menu extends javax.swing.JFrame {
     public JButton getDeleteAll() {
         return deleteAll;
     }
-
+    
+    public JButton getCount() {
+        return btnCount;
+    }
+    
+    public void updatePeopleCount(int count) {
+        lblCount.setText("Personas registradas: " + count);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,6 +75,8 @@ public class Menu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         readAll = new javax.swing.JButton();
         deleteAll = new javax.swing.JButton();
+        btnCount = new javax.swing.JButton();
+        lblCount = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu - People v1.1.0");
@@ -130,10 +142,10 @@ public class Menu extends javax.swing.JFrame {
         jLabel1.setText("Author: francesc.perez@stucom.com - Version 1.1.0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
+        gridBagConstraints.insets = new java.awt.Insets(10, 25, 15, 25);
         getContentPane().add(jLabel1, gridBagConstraints);
 
         readAll.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -167,21 +179,47 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
         getContentPane().add(deleteAll, gridBagConstraints);
 
+        btnCount.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnCount.setText("COUNT");
+        btnCount.setToolTipText("");
+        btnCount.setMaximumSize(new java.awt.Dimension(120, 50));
+        btnCount.setMinimumSize(new java.awt.Dimension(120, 50));
+        btnCount.setPreferredSize(new java.awt.Dimension(120, 50));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
+        getContentPane().add(btnCount, gridBagConstraints);
+
+        lblCount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCount.setBorder(javax.swing.BorderFactory.createTitledBorder("ESTADÍSTICA"));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        getContentPane().add(lblCount, gridBagConstraints);
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+      
     private void deleteAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAllActionPerformed
        JOptionPane.showMessageDialog(null, "All persons have been deleted successfully");
     }//GEN-LAST:event_deleteAllActionPerformed
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCount;
     private javax.swing.JButton delete;
     private javax.swing.JButton deleteAll;
     private javax.swing.JButton insert;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblCount;
     private javax.swing.JButton read;
     private javax.swing.JButton readAll;
     private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
+
+    
 }
