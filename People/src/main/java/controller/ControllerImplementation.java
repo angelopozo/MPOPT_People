@@ -17,7 +17,6 @@ import view.Menu;
 import view.Read;
 import view.ReadAll;
 import view.Update;
-import utils.Constant;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,7 +39,9 @@ import javax.swing.table.DefaultTableModel;
 import org.jdatepicker.DateModel;
 
 /**
- * This class starts the visual part of the application and programs and manages all the events that it can receive from it. For each event received the controller performs an action.
+ * This class starts the visual part of the application and programs and manages
+ * all the events that it can receive from it. For each event received the
+ * controller performs an action.
  *
  * @author Francesc Perez
  * @version 1.1.0
@@ -59,7 +60,9 @@ public class ControllerImplementation implements IController, ActionListener {
     private ReadAll readAll;
 
     /**
-     * This constructor allows the controller to know which data storage option the user has chosen.Schedule an event to deploy when the user has made the selection.
+     * This constructor allows the controller to know which data storage option
+     * the user has chosen.Schedule an event to deploy when the user has made
+     * the selection.
      *
      * @param dSS
      */
@@ -69,7 +72,8 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * With this method, the application is started, asking the user for the chosen storage system.
+     * With this method, the application is started, asking the user for the
+     * chosen storage system.
      */
     @Override
     public void start() {
@@ -77,7 +81,8 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This receives method handles the events of the visual part. Each event has an associated action.
+     * This receives method handles the events of the visual part. Each event
+     * has an associated action.
      *
      * @param e The event generated in the visual part
      */
@@ -114,22 +119,22 @@ public class ControllerImplementation implements IController, ActionListener {
         String daoSelected = ((javax.swing.JCheckBox) (dSS.getAccept()[1])).getText();
         dSS.dispose();
         switch (daoSelected) {
-            case Constant.ARRAYLIST:
+            case "ArrayList":
                 dao = new DAOArrayList();
                 break;
-            case Constant.HASHMAP:
+            case "HashMap":
                 dao = new DAOHashMap();
                 break;
-            case Constant.FILE:
+            case "File":
                 setupFileStorage();
                 break;
-            case Constant.FILE_SERIALIZATION:
+            case "File (Serialization)":
                 setupFileSerialization();
                 break;
-            case Constant.SQL_DATABASE:
+            case "SQL - Database":
                 setupSQLDatabase();
                 break;
-            case Constant.JPA_DATABASE:
+            case "JPA - Database":
                 setupJPADatabase();
                 break;
         }
@@ -221,7 +226,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     private void handleInsertPerson() {
-        Person p = new Person(insert.getNam().getText(), insert.getNif().getText(), insert.getName());
+        Person p = new Person(insert.getNam().getText(), insert.getNif().getText());
         if (insert.getDateOfBirth().getModel().getValue() != null) {
             p.setDateOfBirth(((GregorianCalendar) insert.getDateOfBirth().getModel().getValue()).getTime());
         }
@@ -311,7 +316,7 @@ public class ControllerImplementation implements IController, ActionListener {
 
     public void handleUpdatePerson() {
         if (update != null) {
-            Person p = new Person(update.getNam().getText(), update.getNif().getText(), update.getName());
+            Person p = new Person(update.getNam().getText(), update.getNif().getText());
             if ((update.getDateOfBirth().getModel().getValue()) != null) {
                 p.setDateOfBirth(((GregorianCalendar) update.getDateOfBirth().getModel().getValue()).getTime());
             }
@@ -353,23 +358,25 @@ public class ControllerImplementation implements IController, ActionListener {
         Object[] options = {"Yes", "No"};
         //int answer = JOptionPane.showConfirmDialog(menu, "Are you sure to delete all people registered?", "Delete All - People v1.1.0", 0, 0);
         int answer = JOptionPane.showOptionDialog(
-                menu,
-                "Are you sure you want to delete all registered people?",
-                "Delete All - People v1.1.0",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                options,
-                options[1] // Default selection is "No"
-        );
+        menu,
+        "Are you sure you want to delete all registered people?", 
+        "Delete All - People v1.1.0",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE,
+        null,
+        options,
+        options[1] // Default selection is "No"
+    );
 
         if (answer == 0) {
             deleteAll();
         }
     }
-
+    
     /**
-     * This function inserts the Person object with the requested NIF, if it doesn't exist. If there is any access problem with the storage device, the program stops.
+     * This function inserts the Person object with the requested NIF, if it
+     * doesn't exist. If there is any access problem with the storage device,
+     * the program stops.
      *
      * @param p Person to insert
      */
@@ -378,7 +385,6 @@ public class ControllerImplementation implements IController, ActionListener {
         try {
             if (dao.read(p) == null) {
                 dao.insert(p);
-                JOptionPane.showMessageDialog(insert, "Person inserted succesfully!", insert.getTitle(), JOptionPane.INFORMATION_MESSAGE);
             } else {
                 throw new PersonException(p.getNif() + " is registered and can not "
                         + "be INSERTED.");
@@ -399,7 +405,9 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function updates the Person object with the requested NIF, if it doesn't exist. NIF can not be aupdated. If there is any access problem with the storage device, the program stops.
+     * This function updates the Person object with the requested NIF, if it
+     * doesn't exist. NIF can not be aupdated. If there is any access problem
+     * with the storage device, the program stops.
      *
      * @param p Person to update
      */
@@ -407,7 +415,6 @@ public class ControllerImplementation implements IController, ActionListener {
     public void update(Person p) {
         try {
             dao.update(p);
-            JOptionPane.showMessageDialog(update, "Person updated succesfully!", update.getTitle(), JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             //Exceptions generated by file read/write access. If something goes 
             // wrong the application closes.
@@ -421,7 +428,9 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function deletes the Person object with the requested NIF, if it exists. If there is any access problem with the storage device, the program stops.
+     * This function deletes the Person object with the requested NIF, if it
+     * exists. If there is any access problem with the storage device, the
+     * program stops.
      *
      * @param p Person to read
      */
@@ -429,11 +438,7 @@ public class ControllerImplementation implements IController, ActionListener {
     public void delete(Person p) {
         try {
             if (dao.read(p) != null) {
-                int input = JOptionPane.showConfirmDialog(delete, "Are you sure you want to delete this person?", delete.getTitle(), JOptionPane.OK_OPTION);
-                if (input == 0) {
-                    dao.delete(p);
-                    JOptionPane.showMessageDialog(delete, "Person deleted succesfully!", delete.getTitle(), JOptionPane.INFORMATION_MESSAGE);
-                }
+                dao.delete(p);
             } else {
                 throw new PersonException(p.getNif() + " is not registered and can not "
                         + "be DELETED");
@@ -454,7 +459,9 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function returns the Person object with the requested NIF, if it exists. Otherwise it returns null. If there is any access problem with the storage device, the program stops.
+     * This function returns the Person object with the requested NIF, if it
+     * exists. Otherwise it returns null. If there is any access problem with
+     * the storage device, the program stops.
      *
      * @param p Person to read
      * @return Person or null
@@ -481,7 +488,8 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function returns the people registered. If there is any access problem with the storage device, the program stops.
+     * This function returns the people registered. If there is any access
+     * problem with the storage device, the program stops.
      *
      * @return ArrayList
      */
@@ -502,7 +510,8 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function deletes all the people registered. If there is any access problem with the storage device, the program stops.
+     * This function deletes all the people registered. If there is any access
+     * problem with the storage device, the program stops.
      */
     @Override
     public void deleteAll() {

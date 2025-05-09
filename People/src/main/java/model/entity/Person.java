@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Transient;
 import javax.swing.ImageIcon;
-import java.util.regex.Pattern;
 
 /**
  * Encapsulated class that defines the type of entity that will manage the application.
@@ -21,20 +20,13 @@ public class Person implements Serializable{
     @Id 
     private String nif;
     private String name;
-    private String email;
     private Date dateOfBirth;
-    
-    
-     private static final String emailRegex = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-    private static final Pattern pattern = Pattern.compile(emailRegex);
-    
     @Transient
     private ImageIcon photo;
     @Lob
     private byte[] photoOnlyJPA;
 
     public Person(){
-        
         
     }
     
@@ -51,10 +43,9 @@ public class Person implements Serializable{
      * @author Fran Perez
      * @version 1.0
      */
-    public Person( String nif, String name, String email) {
+    public Person(String name, String nif) {
         this.name = name;
         this.nif = nif;
-        this.email = email;
     }
 
     /**
@@ -66,28 +57,14 @@ public class Person implements Serializable{
      * @param dateOfBirth
      * @param photo
      */
-    public Person(String name, String nif,String email, Date dateOfBirth, ImageIcon photo) {
+    public Person(String name, String nif, Date dateOfBirth, ImageIcon photo) {
         this.name = name;      
         this.nif = nif;
-        this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.photo = photo;
     }
 
     //Getters and Setters
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        if (!pattern.matcher(email).matches()) {
-            throw new IllegalArgumentException("Invalid email format.");
-        }
-        this.email = email;
-    }
-    
-    
     public String getName() {
         return name;
     }
@@ -133,10 +110,6 @@ public class Person implements Serializable{
      * with the same ID. Actually it isn't used in this project.
      * @return 
      */
-    
- 
-
-    
     @Override
     public int hashCode() {
         int hash = 7;

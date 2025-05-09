@@ -61,8 +61,7 @@ public class DAOSQL implements IDAO {
         while (rs.next()) {
             String nif = rs.getString("nif");
             String name = rs.getString("name");
-            String email = rs.getString("email");
-            pReturn = new Person(nif,name,email );
+            pReturn = new Person(name, nif);
             Date date = rs.getDate("dateOfBirth");
             if (date != null) {
                 pReturn.setDateOfBirth(date);
@@ -90,13 +89,12 @@ public class DAOSQL implements IDAO {
         while (rs.next()) {
             String nif = rs.getString("nif");
             String name = rs.getString("name");
-            String email = rs.getString("email");
             Date date = rs.getDate("dateOfBirth");
             String photo = rs.getString("photo");
             if (photo != null) {
-                people.add(new Person(nif, name, email, date, new ImageIcon(photo)));
+                people.add(new Person(nif, name, date, new ImageIcon(photo)));
             } else {
-                people.add(new Person(nif, name,email, date, null));
+                people.add(new Person(nif, name, date, null));
             }
         }
         rs.close();
