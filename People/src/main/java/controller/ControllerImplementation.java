@@ -115,7 +115,6 @@ public class ControllerImplementation implements IController, ActionListener {
      */
     @Override
     public void start() {
-     
         try {
             Connection conn = DriverManager.getConnection(Routes.DB.getDbServerAddress() + Routes.DB.getDbServerComOpt(),
                     Routes.DB.getDbServerUser(), Routes.DB.getDbServerPassword());
@@ -148,6 +147,12 @@ public class ControllerImplementation implements IController, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dSS.getAccept()[0]) {
             handleDataStorageSelection();
+        } else if (e.getSource() == login.getSignIn()) {
+            try {
+                handleSignInAction();
+            } catch (Exception ex) {
+                Logger.getLogger(ControllerImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (e.getSource() == menu.getInsert()) {
              try {
                 handleSignInAction();
@@ -195,10 +200,6 @@ public class ControllerImplementation implements IController, ActionListener {
             }
         }
     }
-    
-    
-    
-    
 
     private void handleDataStorageSelection() {
         String daoSelected = ((javax.swing.JCheckBox) (dSS.getAccept()[1])).getText();
@@ -223,7 +224,6 @@ public class ControllerImplementation implements IController, ActionListener {
                 setupJPADatabase();
                 break;
         }
-        setupMenu();
         setupLogin();
     }
 
@@ -278,7 +278,6 @@ public class ControllerImplementation implements IController, ActionListener {
             JOptionPane.showMessageDialog(dSS, "SQL-DDBB structure not created. Closing application.", "SQL_DDBB - People v1.1.0", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
-        dao = new DAOSQL();
     }
 
     private void setupJPADatabase() {

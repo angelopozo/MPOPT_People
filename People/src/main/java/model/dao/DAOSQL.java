@@ -23,19 +23,15 @@ import javax.swing.ImageIcon;
 import model.entity.User;
 
 /**
- * This class implements the IDAO interface and completes the function code
- * blocks so that they can operate with a SQL DDBB. The NIF is used as the
- * primary key.
+ * This class implements the IDAO interface and completes the function code blocks so that they can operate with a SQL DDBB. The NIF is used as the primary key.
  *
  * @author Francesc Perez
  * @version 1.1.0
  */
 public class DAOSQL implements IDAO {
 
-
-       private static final String SQL_SELECT_ALL_USERS = "SELECT * FROM " + Routes.DB.getDbServerDB() + "." + Routes.USERS.getDbServerTABLE() + ";";
+    private static final String SQL_SELECT_ALL_USERS = "SELECT * FROM " + Routes.DB.getDbServerDB() + "." + Routes.USERS.getDbServerTABLE() + ";";
     private static final String SQL_SELECT_ALL = "SELECT * FROM " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + ";";
-    
     private final String SQL_SELECT = "SELECT * FROM " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " WHERE (nif = ?);";
     private final String SQL_INSERT = "INSERT INTO " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " (nif, name, dateOfBirth, photo) VALUES (?, ?, ?, ?);";
     private final String SQL_UPDATE = "UPDATE " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " SET name = ?, dateOfBirth = ?, photo = ? WHERE (nif = ?);";
@@ -84,8 +80,6 @@ public class DAOSQL implements IDAO {
         return users;
     }
     
-    
-    
 
     @Override
     public Person read(Person p) throws SQLException {
@@ -117,7 +111,7 @@ public class DAOSQL implements IDAO {
     }
 
     @Override
-    public ArrayList<Person> readAll() throws SQLException{
+    public ArrayList<Person> readAll() throws SQLException {
         ArrayList<Person> people = new ArrayList<>();
         Connection conn;
         Statement instruction;
@@ -252,8 +246,9 @@ public class DAOSQL implements IDAO {
         instruction.close();
         disconnect(conn);
         File file = new File(Routes.DB.getFolderPhotos() + File.separator);
-        for(File f : file.listFiles())
+        for (File f : file.listFiles()) {
             f.delete();
+        }
     }
     
      @Override
