@@ -8,7 +8,7 @@ import java.io.File;
  * @version 1.1.0
  */
 public enum Routes {
-
+    USERS(null, null, null, null, null, null, null, null, "user"),
     APPIMAGES("images", null, null, null, null, null, null, null, null),
     FILE ("File", "Photos", "dataFile.txt", null, null, null, null, null, null),
     FILES ("FileSer", null, "dataFile.ser", null, null, null, null, null, null ),

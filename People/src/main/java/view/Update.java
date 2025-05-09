@@ -43,10 +43,9 @@ public class Update extends javax.swing.JDialog {
         return read;
     }
 
-    public JTextField getNam() {
-        return email;
+     public JTextField getNam() {
+        return name;
     }
-
     public JDatePicker getDateOfBirth() {
         return dateOfBirth;
     }
@@ -55,10 +54,7 @@ public class Update extends javax.swing.JDialog {
         return nif;
     }
 
-    public JLabel getEmail() {
-        return Email;
-    }
-
+    
    
     
     
@@ -85,8 +81,6 @@ public class Update extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         nif = new javax.swing.JTextField();
         photo = new javax.swing.JLabel();
-        Email = new javax.swing.JLabel();
-        email = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         dateOfBirth = new org.jdatepicker.JDatePicker();
         reset = new javax.swing.JButton();
@@ -94,7 +88,7 @@ public class Update extends javax.swing.JDialog {
         read = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        name1 = new javax.swing.JTextField();
+        name = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Update - People v1.1.0");
@@ -155,7 +149,7 @@ public class Update extends javax.swing.JDialog {
 
         photo.setFont(new java.awt.Font("Segoe UI", 2, 10)); // NOI18N
         photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        photo.setText("<html><center>PHOTO</center></br><br><center> <i>Supported formats: PNG.</i></center></br><br><center><i>Max. size 64KB</i></center></html>");
+        photo.setText("<html><br><center><i>Drop your file here</i></center></br><center>PHOTO</center></br><br><center> <i>Supported formats: PNG.</i></center></br><br><center><i>Max. size 64KB</i></center></html>");
         photo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         photo.setEnabled(false);
         photo.setMaximumSize(new java.awt.Dimension(150, 135));
@@ -174,41 +168,6 @@ public class Update extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(24, 24, 12, 12);
         getContentPane().add(photo, gridBagConstraints);
-
-        Email.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        Email.setText("Email");
-        Email.setMaximumSize(new java.awt.Dimension(100, 22));
-        Email.setMinimumSize(new java.awt.Dimension(100, 22));
-        Email.setPreferredSize(new java.awt.Dimension(100, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
-        getContentPane().add(Email, gridBagConstraints);
-
-        email.setEnabled(false);
-        email.setMaximumSize(new java.awt.Dimension(400, 22));
-        email.setMinimumSize(new java.awt.Dimension(400, 22));
-        email.setPreferredSize(new java.awt.Dimension(400, 22));
-        email.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                emailKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                emailKeyReleased(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
-        getContentPane().add(email, gridBagConstraints);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Date of Birth");
@@ -301,16 +260,16 @@ public class Update extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
         getContentPane().add(jLabel5, gridBagConstraints);
 
-        name1.setEnabled(false);
-        name1.setMaximumSize(new java.awt.Dimension(400, 22));
-        name1.setMinimumSize(new java.awt.Dimension(400, 22));
-        name1.setPreferredSize(new java.awt.Dimension(400, 22));
-        name1.addKeyListener(new java.awt.event.KeyAdapter() {
+        name.setEnabled(false);
+        name.setMaximumSize(new java.awt.Dimension(400, 22));
+        name.setMinimumSize(new java.awt.Dimension(400, 22));
+        name.setPreferredSize(new java.awt.Dimension(400, 22));
+        name.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                name1KeyPressed(evt);
+                nameKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                name1KeyReleased(evt);
+                nameKeyReleased(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -320,7 +279,7 @@ public class Update extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
-        getContentPane().add(name1, gridBagConstraints);
+        getContentPane().add(name, gridBagConstraints);
 
         pack();
         setLocationRelativeTo(null);
@@ -353,10 +312,10 @@ public class Update extends javax.swing.JDialog {
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
         nif.setEditable(true);
         nif.setText("");
-        email.setText("");
+        name.setText("");
         dateOfBirth.getModel().setValue(null);
         photo.setIcon(null); 
-        email.setEnabled(false);
+        name.setEnabled(false);
         photo.setEnabled(false);
         //We reset the calendar date to the current date ...
         LocalDate dateLocate = LocalDate.now();
@@ -373,52 +332,30 @@ public class Update extends javax.swing.JDialog {
         update.setEnabled(false);
     }//GEN-LAST:event_resetActionPerformed
 
-    private void emailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyPressed
-        if (!isLetter(evt.getKeyChar()) && evt.getKeyCode() != KeyEvent.VK_UP
-                && evt.getKeyCode() != KeyEvent.VK_DOWN && evt.getKeyCode() != KeyEvent.VK_LEFT
-                && evt.getKeyCode() != KeyEvent.VK_RIGHT && evt.getKeyCode() != KeyEvent.VK_SHIFT
-                && evt.getKeyCode() != KeyEvent.VK_BACK_SPACE && evt.getKeyCode() != KeyEvent.VK_DELETE) {
-            JOptionPane.showMessageDialog(this, "Type only uppercase or lowercase letters, hyphens, and whitespace.", "UPdate - People v1.0", JOptionPane.WARNING_MESSAGE);
-            int posDelete = email.getText().indexOf(evt.getKeyChar());
-            StringBuilder newName = new StringBuilder(email.getText());
-            email.setText(newName.deleteCharAt(posDelete).toString());
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_emailKeyPressed
-
-    private void emailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyReleased
-        if (email.getText().length() == 0) {
-            update.setEnabled(false);
-        }else if(!nif.getText().isEmpty()){
-            update.setEnabled(true);
-        }
-    }//GEN-LAST:event_emailKeyReleased
-
     private void photoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoMouseClicked
         photo.setIcon(null);
     }//GEN-LAST:event_photoMouseClicked
 
-    private void name1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_name1KeyPressed
+    private void nameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_name1KeyPressed
+    }//GEN-LAST:event_nameKeyPressed
 
-    private void name1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_name1KeyReleased
+    private void nameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_name1KeyReleased
+    }//GEN-LAST:event_nameKeyReleased
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Email;
     private org.jdatepicker.JDatePicker dateOfBirth;
-    private javax.swing.JTextField email;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JTextField name1;
+    private javax.swing.JTextField name;
     private javax.swing.JTextField nif;
     private javax.swing.JLabel photo;
     private javax.swing.JButton read;

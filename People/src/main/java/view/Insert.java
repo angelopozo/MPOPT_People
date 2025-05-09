@@ -29,6 +29,8 @@ public class Insert extends javax.swing.JDialog {
     public Insert(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+         PromptSupport promptSupport1 = new PromptSupport("Enter NIF number, letter is calculated", nif);
+        PromptSupport promptSupport2 = new PromptSupport("Enter full name", name);
         DropPhotoListener d = new DropPhotoListener(photo, this);
         DropTarget dropTarget = new DropTarget(photo, d);
         insert.setEnabled(false);

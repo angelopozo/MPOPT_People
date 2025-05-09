@@ -63,4 +63,10 @@ public interface IDAO {
      * @throws java.lang.Exception
      */
     public abstract void deleteAll () throws Exception;
+    /**
+     * Cuenta el número total de elementos en el almacenamiento
+     * @return número total de elementos
+     * @throws Exception si ocurre un error
+     */
+    int count() throws Exception;
 }

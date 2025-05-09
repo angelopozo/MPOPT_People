@@ -32,4 +32,3 @@ public class PromptSupport extends JLabel implements DocumentListener {
         setVisible(component.getText().isEmpty());
     }
 }
-

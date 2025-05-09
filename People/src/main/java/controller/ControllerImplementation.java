@@ -17,6 +17,7 @@ import view.Menu;
 import view.Read;
 import view.ReadAll;
 import view.Update;
+import utils.Constants;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,12 +32,16 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.*;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.entity.User;
 import org.jdatepicker.DateModel;
+import view.Login;
 
 /**
  * This class starts the visual part of the application and programs and manages
@@ -51,6 +56,7 @@ public class ControllerImplementation implements IController, ActionListener {
     //Instance variables used so that both the visual and model parts can be 
     //accessed from the Controller.
     private final DataStorageSelection dSS;
+    private DAOSQL userdb;
     private IDAO dao;
     private Menu menu;
     private Insert insert;
@@ -58,6 +64,7 @@ public class ControllerImplementation implements IController, ActionListener {
     private Delete delete;
     private Update update;
     private ReadAll readAll;
+    private Login login;
 
     /**
      * This constructor allows the controller to know which data storage option
@@ -70,6 +77,37 @@ public class ControllerImplementation implements IController, ActionListener {
         this.dSS = dSS;
         ((JButton) (dSS.getAccept()[0])).addActionListener(this);
     }
+    
+    public ControllerImplementation(IDAO dao, Menu menu) {
+        this.dao = dao;
+        this.menu = menu;
+        initView();
+        initController();
+        this.dSS = null;
+    }
+
+    private void initView(){
+        menu.setVisible(true);
+        updatePeopleCount();
+    }  
+
+    private void initController() {
+        menu.getCount().addActionListener(e -> updatePeopleCount());
+
+        // Actualizar conteo después de operaciones CRUD
+        menu.getInsert().addActionListener(e -> updatePeopleCount());
+        menu.getDelete().addActionListener(e -> updatePeopleCount());
+        menu.getDeleteAll().addActionListener(e -> updatePeopleCount());
+    }
+
+    private void updatePeopleCount() {
+        try {
+            int count = dao.count();
+            menu.updatePeopleCount(count);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     /**
      * With this method, the application is started, asking the user for the
@@ -77,6 +115,26 @@ public class ControllerImplementation implements IController, ActionListener {
      */
     @Override
     public void start() {
+     
+        try {
+            Connection conn = DriverManager.getConnection(Routes.DB.getDbServerAddress() + Routes.DB.getDbServerComOpt(),
+                    Routes.DB.getDbServerUser(), Routes.DB.getDbServerPassword());
+            if (conn != null) {
+                try (Statement stmt = conn.createStatement()) {
+                    stmt.executeUpdate("create database if not exists " + Routes.DB.getDbServerDB() + ";");
+                    stmt.executeUpdate("create table if not exists " + Routes.DB.getDbServerDB() + "." + Routes.USERS.getDbServerTABLE() + "("
+                            + "id int primary key auto_increment not null, "
+                            + "username varchar(50), "
+                            + "password varchar(50) );");
+                }
+                conn.close();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(dSS, "SQL-DDBB structure not created. Closing application.", "SQL_DDBB - People v1.1.0", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+        userdb = new DAOSQL();
+        dao = new DAOSQL();
         dSS.setVisible(true);
     }
 
@@ -91,6 +149,11 @@ public class ControllerImplementation implements IController, ActionListener {
         if (e.getSource() == dSS.getAccept()[0]) {
             handleDataStorageSelection();
         } else if (e.getSource() == menu.getInsert()) {
+             try {
+                handleSignInAction();
+            } catch (Exception ex) {
+              Logger.getLogger(ControllerImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            }  
             handleInsertAction();
         } else if (insert != null && e.getSource() == insert.getInsert()) {
             handleInsertPerson();
@@ -114,31 +177,54 @@ public class ControllerImplementation implements IController, ActionListener {
             handleDeleteAll();
         }
     }
+    
+    private void handleSignInAction() throws Exception {
+        ArrayList<User> users = DAOSQL.class.cast(userdb).loadData();
+        if (users.isEmpty()) {
+            JOptionPane.showMessageDialog(login, "There are no registered users in the database. Please add a user to access the app.", "Login - People v1.1.0", JOptionPane.ERROR_MESSAGE);
+        } else {
+            for (User user : users) {
+                if (login.getUsername().getText().equals(user.getUsername()) && login.getPassword().getText().equals(user.getPassword())) {
+                    JOptionPane.showMessageDialog(login, "You have successfully signed in. Welcome " + login.getUsername().getText() + "!", "Login - People v1.1.0", JOptionPane.INFORMATION_MESSAGE);
+                    login.setVisible(false);
+                    setupMenu();
+                    break;
+                } else {
+                    JOptionPane.showMessageDialog(login, "Invalid username or password. Please, try again.", "Login - People v1.1.0", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+    
+    
+    
+    
 
     private void handleDataStorageSelection() {
         String daoSelected = ((javax.swing.JCheckBox) (dSS.getAccept()[1])).getText();
         dSS.dispose();
         switch (daoSelected) {
-            case "ArrayList":
+            case  Constants.ARRAYLIST:
                 dao = new DAOArrayList();
                 break;
-            case "HashMap":
+            case Constants.HASHMAP:
                 dao = new DAOHashMap();
                 break;
-            case "File":
+            case Constants.FILE:
                 setupFileStorage();
                 break;
-            case "File (Serialization)":
+            case Constants.FILE_SERIALIZATION:
                 setupFileSerialization();
                 break;
-            case "SQL - Database":
+            case Constants.SQL_DATABASE:
                 setupSQLDatabase();
                 break;
-            case "JPA - Database":
+            case Constants.JPA_DATABASE:
                 setupJPADatabase();
                 break;
         }
         setupMenu();
+        setupLogin();
     }
 
     private void setupFileStorage() {
@@ -155,7 +241,7 @@ public class ControllerImplementation implements IController, ActionListener {
                 System.exit(0);
             }
         }
-        dao = new DAOFile();
+        dao = new DAOSQL();
     }
 
     private void setupFileSerialization() {
@@ -217,6 +303,12 @@ public class ControllerImplementation implements IController, ActionListener {
         menu.getDelete().addActionListener(this);
         menu.getReadAll().addActionListener(this);
         menu.getDeleteAll().addActionListener(this);
+    }
+    
+     private void setupLogin() {
+        login = new Login();
+        login.getSignIn().addActionListener(this);
+        login.setVisible(true);
     }
 
     private void handleInsertAction() {
@@ -385,6 +477,7 @@ public class ControllerImplementation implements IController, ActionListener {
         try {
             if (dao.read(p) == null) {
                 dao.insert(p);
+            JOptionPane.showMessageDialog(insert,"Person inserted succesfully!", insert.getTitle(), JOptionPane.INFORMATION_MESSAGE);
             } else {
                 throw new PersonException(p.getNif() + " is registered and can not "
                         + "be INSERTED.");
@@ -415,6 +508,7 @@ public class ControllerImplementation implements IController, ActionListener {
     public void update(Person p) {
         try {
             dao.update(p);
+            JOptionPane.showMessageDialog(update, "Person updated succesfully!", update.getTitle(), JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             //Exceptions generated by file read/write access. If something goes 
             // wrong the application closes.
@@ -439,6 +533,11 @@ public class ControllerImplementation implements IController, ActionListener {
         try {
             if (dao.read(p) != null) {
                 dao.delete(p);
+                 int input = JOptionPane.showConfirmDialog(delete, "Are you sure you want to delete this person?", delete.getTitle(), JOptionPane.OK_OPTION);
+                if (input == 0) {
+                    dao.delete(p);
+                    JOptionPane.showMessageDialog(delete, "Person deleted succesfully!", delete.getTitle(), JOptionPane.INFORMATION_MESSAGE);
+                }
             } else {
                 throw new PersonException(p.getNif() + " is not registered and can not "
                         + "be DELETED");

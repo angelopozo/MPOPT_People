@@ -45,7 +45,16 @@ public class Menu extends javax.swing.JFrame {
     }
     
     public JButton getDeleteAll() {
-        return deleteAll;
+        return btnCount;
+    }
+    
+    
+    public JButton getCount() {
+        return btnCount;
+    }
+
+    public void updatePeopleCount(int count) {
+        lblCount.setText("Personas registradas: " + count);
     }
 
     /**
@@ -64,6 +73,8 @@ public class Menu extends javax.swing.JFrame {
         insert = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         readAll = new javax.swing.JButton();
+        btnCount = new javax.swing.JButton();
+        lblCount = new javax.swing.JButton();
         deleteAll = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -130,7 +141,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel1.setText("Author: francesc.perez@stucom.com - Version 1.1.0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
@@ -148,6 +159,42 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
         getContentPane().add(readAll, gridBagConstraints);
+
+        btnCount.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnCount.setText("COUNT");
+        btnCount.setMaximumSize(new java.awt.Dimension(120, 50));
+        btnCount.setMinimumSize(new java.awt.Dimension(120, 50));
+        btnCount.setPreferredSize(new java.awt.Dimension(120, 50));
+        btnCount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCountActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
+        getContentPane().add(btnCount, gridBagConstraints);
+
+        lblCount.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblCount.setText("REGISTER");
+        lblCount.setMaximumSize(new java.awt.Dimension(120, 50));
+        lblCount.setMinimumSize(new java.awt.Dimension(120, 50));
+        lblCount.setPreferredSize(new java.awt.Dimension(120, 50));
+        lblCount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lblCountActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
+        getContentPane().add(lblCount, gridBagConstraints);
 
         deleteAll.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         deleteAll.setText("DELETE ALL");
@@ -171,15 +218,25 @@ public class Menu extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void deleteAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAllActionPerformed
+    private void btnCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCountActionPerformed
        JOptionPane.showMessageDialog(null, "All persons have been deleted successfully");
+    }//GEN-LAST:event_btnCountActionPerformed
+
+    private void lblCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblCountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblCountActionPerformed
+
+    private void deleteAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAllActionPerformed
+        // TODO add your handling code here:
     }//GEN-LAST:event_deleteAllActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCount;
     private javax.swing.JButton delete;
     private javax.swing.JButton deleteAll;
     private javax.swing.JButton insert;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton lblCount;
     private javax.swing.JButton read;
     private javax.swing.JButton readAll;
     private javax.swing.JButton update;

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import model.entity.User;
 
 /**
  * This class implements the IDAO interface and completes the function code
@@ -31,14 +32,17 @@ import javax.swing.ImageIcon;
  */
 public class DAOSQL implements IDAO {
 
-    private final String SQL_SELECT_ALL = "SELECT * FROM " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + ";";
+
+       private static final String SQL_SELECT_ALL_USERS = "SELECT * FROM " + Routes.DB.getDbServerDB() + "." + Routes.USERS.getDbServerTABLE() + ";";
+    private static final String SQL_SELECT_ALL = "SELECT * FROM " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + ";";
+    
     private final String SQL_SELECT = "SELECT * FROM " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " WHERE (nif = ?);";
     private final String SQL_INSERT = "INSERT INTO " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " (nif, name, dateOfBirth, photo) VALUES (?, ?, ?, ?);";
     private final String SQL_UPDATE = "UPDATE " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " SET name = ?, dateOfBirth = ?, photo = ? WHERE (nif = ?);";
     private final String SQL_DELETE = "DELETE FROM " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " WHERE (nif = ";
     private final String SQL_DELETE_ALL = "TRUNCATE " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE();
 
-    public Connection connect() throws SQLException {
+    public static Connection connect() throws SQLException {
         Connection conn;
         conn = DriverManager.getConnection(Routes.DB.getDbServerAddress() + Routes.DB.getDbServerComOpt(), Routes.DB.getDbServerUser(), Routes.DB.getDbServerPassword());
         return conn;
@@ -47,6 +51,41 @@ public class DAOSQL implements IDAO {
     public void disconnect(Connection conn) throws SQLException {
         conn.close();
     }
+    
+       public ArrayList<User> loadData() throws SQLException {
+        ArrayList<User> users = new ArrayList<>();
+        Statement stmt = null;
+        ResultSet rs = null;
+        Connection conn;
+        User user;
+
+        try {
+            conn = connect();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(SQL_SELECT_ALL_USERS);
+
+            if (rs != null && rs.next()) {
+                do {
+                    user = new User(rs.getString("username"), rs.getString("password"));
+                    users.add(user);
+                } while (rs.next());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+
+        return users;
+    }
+    
+    
+    
 
     @Override
     public Person read(Person p) throws SQLException {
@@ -215,6 +254,21 @@ public class DAOSQL implements IDAO {
         File file = new File(Routes.DB.getFolderPhotos() + File.separator);
         for(File f : file.listFiles())
             f.delete();
+    }
+    
+     @Override
+    public int count() throws Exception {
+        String sql = "SELECT COUNT(*) FROM people";
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            return rs.next() ? rs.getInt(1) : 0;
+        }
+    }
+
+    private Connection getConnection() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
