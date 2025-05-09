@@ -80,40 +80,6 @@ public class DAOSQL implements IDAO {
         return users;
     }
     
-    
-    
-
-    public ArrayList<User> loadData() throws SQLException {
-        ArrayList<User> users = new ArrayList<>();
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn;
-        User user;
-
-        try {
-            conn = connect();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(SQL_SELECT_ALL_USERS);
-
-            if (rs != null && rs.next()) {
-                do {
-                    user = new User(rs.getString("username"), rs.getString("password"));
-                    users.add(user);
-                } while (rs.next());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-        }
-
-        return users;
-    }
 
     @Override
     public Person read(Person p) throws SQLException {

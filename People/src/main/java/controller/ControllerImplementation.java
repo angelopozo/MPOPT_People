@@ -200,28 +200,6 @@ public class ControllerImplementation implements IController, ActionListener {
             }
         }
     }
-    
-    
-    
-    
-
-    private void handleSignInAction() throws Exception {
-        ArrayList<User> users = DAOSQL.class.cast(userdb).loadData();
-        if (users.isEmpty()) {
-            JOptionPane.showMessageDialog(login, "There are no registered users in the database. Please add a user to access the app.", "Login - People v1.1.0", JOptionPane.ERROR_MESSAGE);
-        } else {
-            for (User user : users) {
-                if (login.getUsername().getText().equals(user.getUsername()) && login.getPassword().getText().equals(user.getPassword())) {
-                    JOptionPane.showMessageDialog(login, "You have successfully signed in. Welcome " + login.getUsername().getText() + "!", "Login - People v1.1.0", JOptionPane.INFORMATION_MESSAGE);
-                    login.setVisible(false);
-                    setupMenu();
-                    break;
-                } else {
-                    JOptionPane.showMessageDialog(login, "Invalid username or password. Please, try again.", "Login - People v1.1.0", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
-    }
 
     private void handleDataStorageSelection() {
         String daoSelected = ((javax.swing.JCheckBox) (dSS.getAccept()[1])).getText();
@@ -327,12 +305,6 @@ public class ControllerImplementation implements IController, ActionListener {
     }
     
      private void setupLogin() {
-        login = new Login();
-        login.getSignIn().addActionListener(this);
-        login.setVisible(true);
-    }
-
-    private void setupLogin() {
         login = new Login();
         login.getSignIn().addActionListener(this);
         login.setVisible(true);
