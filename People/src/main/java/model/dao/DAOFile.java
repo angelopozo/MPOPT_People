@@ -172,5 +172,10 @@ public class DAOFile implements IDAO {
         delete(p);
         insert(p);
     }
+    
+      @Override
+    public int count() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

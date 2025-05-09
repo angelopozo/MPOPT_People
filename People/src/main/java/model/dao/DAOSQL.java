@@ -47,6 +47,41 @@ public class DAOSQL implements IDAO {
     public void disconnect(Connection conn) throws SQLException {
         conn.close();
     }
+    
+       public ArrayList<User> loadData() throws SQLException {
+        ArrayList<User> users = new ArrayList<>();
+        Statement stmt = null;
+        ResultSet rs = null;
+        Connection conn;
+        User user;
+
+        try {
+            conn = connect();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(SQL_SELECT_ALL_USERS);
+
+            if (rs != null && rs.next()) {
+                do {
+                    user = new User(rs.getString("username"), rs.getString("password"));
+                    users.add(user);
+                } while (rs.next());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+
+        return users;
+    }
+    
+    
+    
 
     public ArrayList<User> loadData() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
@@ -248,6 +283,21 @@ public class DAOSQL implements IDAO {
         for (File f : file.listFiles()) {
             f.delete();
         }
+    }
+    
+     @Override
+    public int count() throws Exception {
+        String sql = "SELECT COUNT(*) FROM people";
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            return rs.next() ? rs.getInt(1) : 0;
+        }
+    }
+
+    private Connection getConnection() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

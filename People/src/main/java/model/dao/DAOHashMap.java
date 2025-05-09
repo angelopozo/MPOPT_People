@@ -45,5 +45,11 @@ public class DAOHashMap implements IDAO {
     public ArrayList<Person> readAll() {
         return new ArrayList<>(people.values());
     }
+    
+     @Override
+    public int count() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); 
+// Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

@@ -26,5 +26,12 @@ public class DataValidation {
             "N","J","Z","S","Q","V","H","L","C","K","E"};
         return nifNoLetter + letter[Integer.parseInt(nifNoLetter)%23];
     }
+    
+    
+    public static boolean isValidEmail(String email) {
+    String emailRegex = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    return email != null && email.matches(emailRegex);
+}
+
 
 }
