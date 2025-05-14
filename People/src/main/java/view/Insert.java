@@ -55,9 +55,7 @@ public class Insert extends javax.swing.JDialog {
     public JTextField getNam() {
         return name;
     }
-    public JTextField getEm() {
-        return Email;
-    }
+ 
     
     
 
@@ -84,18 +82,15 @@ public class Insert extends javax.swing.JDialog {
         java.awt.GridBagConstraints gridBagConstraints;
 
         insert = new javax.swing.JButton();
-        Email = new javax.swing.JTextField();
         reset = new javax.swing.JButton();
         photo = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        NIF = new javax.swing.JLabel();
         Nif = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         dateOfBirth = new org.jdatepicker.JDatePicker();
         jLabel11 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        email = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -120,31 +115,6 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
         getContentPane().add(insert, gridBagConstraints);
-
-        Email.setMaximumSize(new java.awt.Dimension(400, 22));
-        Email.setMinimumSize(new java.awt.Dimension(400, 22));
-        Email.setPreferredSize(new java.awt.Dimension(400, 22));
-        Email.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EmailActionPerformed(evt);
-            }
-        });
-        Email.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                EmailKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                EmailKeyTyped(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
-        getContentPane().add(Email, gridBagConstraints);
 
         reset.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         reset.setText("RESET");
@@ -223,19 +193,6 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(24, 12, 12, 24);
         getContentPane().add(Nif, gridBagConstraints);
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel8.setText("Date of Birth");
-        jLabel8.setMaximumSize(new java.awt.Dimension(150, 22));
-        jLabel8.setMinimumSize(new java.awt.Dimension(150, 22));
-        jLabel8.setPreferredSize(new java.awt.Dimension(150, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
-        getContentPane().add(jLabel8, gridBagConstraints);
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 8)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Author: francesc.perez@stucom.com - Version 1.1.0");
@@ -297,19 +254,6 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
         getContentPane().add(jLabel3, gridBagConstraints);
-
-        email.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        email.setText("Email");
-        email.setMaximumSize(new java.awt.Dimension(150, 22));
-        email.setMinimumSize(new java.awt.Dimension(150, 22));
-        email.setPreferredSize(new java.awt.Dimension(150, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
-        getContentPane().add(email, gridBagConstraints);
 
         name.setMaximumSize(new java.awt.Dimension(400, 22));
         name.setMinimumSize(new java.awt.Dimension(400, 22));
@@ -374,14 +318,6 @@ public class Insert extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_NifKeyTyped
 
-    private void EmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_EmailKeyTyped
-       
-    }//GEN-LAST:event_EmailKeyTyped
-
-    private void EmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_EmailKeyReleased
-       
-    }//GEN-LAST:event_EmailKeyReleased
-
     private void photoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoMouseClicked
         photo.setIcon(null);
     }//GEN-LAST:event_photoMouseClicked
@@ -403,9 +339,9 @@ public class Insert extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_NifKeyPressed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel NIF;
     private javax.swing.JTextField Nif;
     private org.jdatepicker.JDatePicker dateOfBirth;
-    private javax.swing.JLabel email;
     private javax.swing.JButton insert;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
