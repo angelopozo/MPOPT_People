@@ -23,7 +23,9 @@ import javax.swing.ImageIcon;
 import model.entity.User;
 
 /**
- * This class implements the IDAO interface and completes the function code blocks so that they can operate with a SQL DDBB. The NIF is used as the primary key.
+ * This class implements the IDAO interface and completes the function code
+ * blocks so that they can operate with a SQL DDBB. The NIF is used as the
+ * primary key.
  *
  * @author Francesc Perez
  * @version 1.1.0
@@ -47,8 +49,8 @@ public class DAOSQL implements IDAO {
     public void disconnect(Connection conn) throws SQLException {
         conn.close();
     }
-    
-       public ArrayList<User> loadData() throws SQLException {
+
+    public ArrayList<User> loadData() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
         Statement stmt = null;
         ResultSet rs = null;
@@ -79,7 +81,6 @@ public class DAOSQL implements IDAO {
 
         return users;
     }
-    
 
     @Override
     public Person read(Person p) throws SQLException {
@@ -250,16 +251,34 @@ public class DAOSQL implements IDAO {
             f.delete();
         }
     }
-    
-     @Override
+
+    @Override
     public int count() throws Exception {
         String sql = "SELECT COUNT(*) FROM people";
-        try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             return rs.next() ? rs.getInt(1) : 0;
         }
+    }
+
+    public int countUsers() {
+        int count = 0;
+        String query = "SELECT COUNT(*) FROM " + Routes.USERS.getDbServerTABLE();
+
+        try (Connection conn = DriverManager.getConnection(
+                Routes.DB.getDbServerAddress() + Routes.DB.getDbServerComOpt(),
+                Routes.DB.getDbServerUser(),
+                Routes.DB.getDbServerPassword()); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
     }
 
     private Connection getConnection() {
