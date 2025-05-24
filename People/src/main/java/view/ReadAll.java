@@ -1,7 +1,16 @@
 package view;
 
+import static controller.ControllerImplementation.s;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import model.entity.Person;
 
 /**
  * Interface used to read all persons.
@@ -13,6 +22,48 @@ public class ReadAll extends javax.swing.JDialog {
     public ReadAll(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        Export.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        // Obtener modelo de la tabla
+        javax.swing.table.TableModel model = table.getModel();
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay datos para exportar.");
+            return;
+        }
+
+        // Obtener la fecha actual
+        java.time.LocalDate today = java.time.LocalDate.now();
+        String fileName = "people_data_" + today.toString().replace("-", "") + ".csv";
+
+        // Crear archivo
+        File file = new File(System.getProperty("user.home"), fileName);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            // Escribir cabeceras
+            for (int i = 0; i < model.getColumnCount(); i++) {
+                bw.write(model.getColumnName(i));
+                if (i < model.getColumnCount() - 1) bw.write(",");
+            }
+            bw.newLine();
+
+            // Escribir filas
+            for (int row = 0; row < model.getRowCount(); row++) {
+                for (int col = 0; col < model.getColumnCount(); col++) {
+                    Object cell = model.getValueAt(row, col);
+                    bw.write(cell != null ? cell.toString() : "");
+                    if (col < model.getColumnCount() - 1) bw.write(",");
+                }
+                bw.newLine();
+            }
+
+            JOptionPane.showMessageDialog(null, "Data exported successfully as " + file.getName());
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error al exportar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+});
+
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment((int)JTable.CENTER_ALIGNMENT);
         table.getColumnModel().getColumn(0).setCellRenderer( centerRenderer );
@@ -40,6 +91,7 @@ public class ReadAll extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        Export = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Read All - People v1.1.0");
@@ -86,16 +138,32 @@ public class ReadAll extends javax.swing.JDialog {
         jLabel2.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
         getContentPane().add(jLabel2, gridBagConstraints);
 
+        Export.setText("EXPORTAR");
+        Export.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        getContentPane().add(Export, gridBagConstraints);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ExportActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Export;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;

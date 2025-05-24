@@ -131,6 +131,11 @@ public class Menu extends javax.swing.JFrame {
         insert.setMaximumSize(new java.awt.Dimension(120, 50));
         insert.setMinimumSize(new java.awt.Dimension(120, 50));
         insert.setPreferredSize(new java.awt.Dimension(120, 50));
+        insert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -235,6 +240,10 @@ public class Menu extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Total number of people: " + count,
                 "User Count", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnCountActionPerformed
+
+    private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_insertActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCount;
