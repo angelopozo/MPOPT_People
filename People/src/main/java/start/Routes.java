@@ -75,5 +75,11 @@ public enum Routes {
     public String getDbServerTABLE() {
         return dbServerTABLE;
     }
+    
+    public static void createFileReadAll(){
+        String proyectDirection = System.getProperty("user.dir");
+        String separator = File.separator;
+        String fileDirection = proyectDirection + separator + ".txt";
+    }
 
 }
