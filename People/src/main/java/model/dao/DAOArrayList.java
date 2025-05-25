@@ -4,6 +4,7 @@ import model.entity.Person;
 import java.util.ArrayList;
 
 /**
+ * This class implements the IDAO interface and completes the code blocks of the functions so that they can operate with an ArrayList structure. Thanks to the overriding of the "equals" method in the Person class, the ArrayList will not be able to contain objects with the same NIF.
  * This class implements the IDAO interface and completes the code blocks of the
  * functions so that they can operate with an ArrayList structure. Thanks to the
  * overriding of the "equals" method in the Person class, the ArrayList will not
@@ -54,5 +55,4 @@ public class DAOArrayList implements IDAO {
     public int countUsers() {
         return people.size();
     }
-
 }

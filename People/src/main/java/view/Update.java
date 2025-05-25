@@ -27,14 +27,25 @@ import static utils.DataValidation.isValidEmail;
  */
 public class Update extends javax.swing.JDialog {
 
-    public Update(java.awt.Frame parent, boolean modal) {
+    private String[] loggedUser;
+    
+    public Update(java.awt.Frame parent, boolean modal, String[] loggedUser) {
         super(parent, modal);
         initComponents();
+        this.loggedUser=loggedUser;
+        verificar();
         setLocationRelativeTo(null);
         DropPhotoListener d = new DropPhotoListener(photo, this);
         DropTarget dropTarget = new DropTarget(photo, d);
         read.setVisible(false);
         update.setEnabled(false);
+    }
+    
+    public void verificar(){
+        if(loggedUser[2].equalsIgnoreCase("empleado")){
+            JOptionPane.showConfirmDialog(rootPane, "Los empelados no pueden acceder. vuelve al menu.  ");
+            this.setVisible(false);
+        }
     }
 
     public JButton getUpdate() {

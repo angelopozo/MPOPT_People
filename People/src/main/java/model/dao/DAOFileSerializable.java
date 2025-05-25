@@ -15,10 +15,7 @@ import java.util.List;
 import model.entity.User;
 
 /**
- * This class implements the IDAO interface and completes the code of the
- * functions so that they can work with files to store objects. User data is
- * saved in the "dataFileS.ser" file and the associated photos, if any, are
- * saved with the name NIF.png in the "Photos" folder.
+ * This class implements the IDAO interface and completes the code of the functions so that they can work with files to store objects. User data is saved in the "dataFileS.ser" file and the associated photos, if any, are saved with the name NIF.png in the "Photos" folder.
  *
  * @author Francesc Perez
  * @version 1.1.0
@@ -174,11 +171,6 @@ public class DAOFileSerializable implements IDAO {
         insert(p);
     }
 
-    @Override
-    public int count() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     public int countUsers() {
         int count = 0;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(Routes.USERS.getDbLocalSerializedPath()))) {
@@ -189,5 +181,28 @@ public class DAOFileSerializable implements IDAO {
         }
         return count;
     }
-
+    
+    @Override
+    public int count() throws Exception {
+        int count = 0;
+        ObjectInputStream ois = null;
+        FileInputStream fIS = null;
+        try {
+            fIS = new FileInputStream(Routes.FILES.getDataFile());
+            ois = new ObjectInputStream(fIS);
+            Person pr;
+            while ((pr = (Person) ois.readObject()) != null) {
+                count++;
+            }
+            ois.close();
+        } finally {
+            if (ois != null) {
+                ois.close();
+            }
+            if (fIS != null) {
+                fIS.close();
+            }
+        }
+        return count;
+    }
 }

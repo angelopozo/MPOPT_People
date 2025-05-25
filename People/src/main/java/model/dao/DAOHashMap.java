@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class implements the IDAO interface and completes the function code
- * blocks so that they can operate with a HashMap structure. The NIF is used as
- * the key.
+ * This class implements the IDAO interface and completes the function code blocks so that they can operate with a HashMap structure. The NIF is used as the key.
  *
  * @author Francesc Perez
  * @version 1.1.0
@@ -46,14 +44,11 @@ public class DAOHashMap implements IDAO {
         return new ArrayList<>(people.values());
     }
 
-    @Override
-    public int count() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
-// Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     public int countUsers() {
         return people.size();
     }
-
+    @Override
+    public int count() throws Exception {
+        return people.size();
+    }
 }
