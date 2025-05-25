@@ -384,6 +384,7 @@ public class Insert extends javax.swing.JDialog {
     
     }//GEN-LAST:event_emailKeyTyped
 
+
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_insertActionPerformed

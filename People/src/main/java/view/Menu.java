@@ -6,18 +6,22 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import model.dao.DAOSQL;
 
 /**
- * This class defines the main menu of the application. Actions that can be 
+ * This class defines the main menu of the application. Actions that can be
  * done: insert, read, delete, update, readAll.
+ *
  * @author Francesc Perez
  * @version 1.1.0
  */
 public class Menu extends javax.swing.JFrame {
 
+    private DAOSQL userdb = new DAOSQL();
+
     public Menu() {
         initComponents();
-         try {
+        try {
             setIconImage(new ImageIcon(ImageIO.read(new File("images/logo.png"))).getImage());
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Application logo is not available", "WARNING MESSAGE", JOptionPane.WARNING_MESSAGE);
@@ -43,12 +47,11 @@ public class Menu extends javax.swing.JFrame {
     public JButton getReadAll() {
         return readAll;
     }
-    
+
     public JButton getDeleteAll() {
-        return btnCount;
+        return deleteAll;
     }
-    
-    
+
     public JButton getCount() {
         return btnCount;
     }
@@ -73,9 +76,9 @@ public class Menu extends javax.swing.JFrame {
         insert = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         readAll = new javax.swing.JButton();
-        btnCount = new javax.swing.JButton();
         lblCount = new javax.swing.JButton();
         deleteAll = new javax.swing.JButton();
+        btnCount = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu - People v1.1.0");
@@ -128,6 +131,11 @@ public class Menu extends javax.swing.JFrame {
         insert.setMaximumSize(new java.awt.Dimension(120, 50));
         insert.setMinimumSize(new java.awt.Dimension(120, 50));
         insert.setPreferredSize(new java.awt.Dimension(120, 50));
+        insert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -159,24 +167,6 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
         getContentPane().add(readAll, gridBagConstraints);
-
-        btnCount.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnCount.setText("COUNT");
-        btnCount.setMaximumSize(new java.awt.Dimension(120, 50));
-        btnCount.setMinimumSize(new java.awt.Dimension(120, 50));
-        btnCount.setPreferredSize(new java.awt.Dimension(120, 50));
-        btnCount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCountActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
-        getContentPane().add(btnCount, gridBagConstraints);
 
         lblCount.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblCount.setText("REGISTER");
@@ -214,13 +204,27 @@ public class Menu extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
         getContentPane().add(deleteAll, gridBagConstraints);
 
+        btnCount.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnCount.setText("COUNT");
+        btnCount.setMaximumSize(new java.awt.Dimension(120, 50));
+        btnCount.setMinimumSize(new java.awt.Dimension(120, 50));
+        btnCount.setPreferredSize(new java.awt.Dimension(120, 50));
+        btnCount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCountActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 24, 12, 24);
+        getContentPane().add(btnCount, gridBagConstraints);
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCountActionPerformed
-       JOptionPane.showMessageDialog(null, "All persons have been deleted successfully");
-    }//GEN-LAST:event_btnCountActionPerformed
 
     private void lblCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblCountActionPerformed
         // TODO add your handling code here:
@@ -229,6 +233,17 @@ public class Menu extends javax.swing.JFrame {
     private void deleteAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAllActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteAllActionPerformed
+
+    private void btnCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCountActionPerformed
+        int count = userdb.countUsers();
+        updatePeopleCount(count); // Esto actualiza el label lblCount
+        JOptionPane.showMessageDialog(null, "Total number of people: " + count,
+                "User Count", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnCountActionPerformed
+
+    private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_insertActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCount;
