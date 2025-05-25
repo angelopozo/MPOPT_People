@@ -15,6 +15,14 @@ public enum Routes {
     DB("SQL_DataBase", "Photos", null, "jdbc:mysql://localhost:3306", "?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "", "people", "person"),
     DBO("JPA_DataBase", null, null, "objectdb:db/people.odb;user=admin;password=admin", null, null, null, null, null);
 
+    public static String getDbLocalPath() {
+        return dbLocalPath;
+    }
+
+    public static String getDbLocalSerializedPath() {
+        return dbLocalSerializedPath;
+    }
+
     private final String folderPath;
     private final String folderPhotos;
     private final String dataFile;
@@ -24,6 +32,9 @@ public enum Routes {
     private final String dbServerPassword;
     private final String dbServerDB;
     private final String dbServerTABLE;
+
+    private static String dbLocalPath;
+    private static String dbLocalSerializedPath;
 
     private Routes(String folderPath, String folderPhotos, String dataFile,
             String dbServerAddress, String dbServerComOpt, String dbServerUser,
@@ -75,8 +86,8 @@ public enum Routes {
     public String getDbServerTABLE() {
         return dbServerTABLE;
     }
-    
-    public static void createFileReadAll(){
+
+    public static void createFileReadAll() {
         String proyectDirection = System.getProperty("user.dir");
         String separator = File.separator;
         String fileDirection = proyectDirection + separator + ".txt";

@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
+import model.entity.User;
 
 /**
  * This class implements the IDAO interface and completes the code of the
@@ -60,7 +62,7 @@ public class DAOFileSerializable implements IDAO {
         ObjectInputStream ois = null;
         FileInputStream fIS = null;
         try {
-            
+
             fIS = new FileInputStream(Routes.FILES.getDataFile());
             ois = new ObjectInputStream(fIS);
             Person pr;
@@ -80,7 +82,7 @@ public class DAOFileSerializable implements IDAO {
                 fIS.close();
             }
         }
-        
+
         return people;
     }
 
@@ -102,7 +104,7 @@ public class DAOFileSerializable implements IDAO {
             //Do nothing
 //            System.out.println("El archivo está vacío y no se puede crear"
 //                    + "el objeto ObjectInputStream");
-        }finally {
+        } finally {
             if (ois != null) {
                 ois.close();
             }
@@ -167,14 +169,25 @@ public class DAOFileSerializable implements IDAO {
     }
 
     @Override
-    public void update(Person p) throws FileNotFoundException, IOException, ClassNotFoundException{
+    public void update(Person p) throws FileNotFoundException, IOException, ClassNotFoundException {
         delete(p);
         insert(p);
     }
-    
-     @Override
+
+    @Override
     public int count() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public int countUsers() {
+        int count = 0;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(Routes.USERS.getDbLocalSerializedPath()))) {
+            List<User> userList = (List<User>) ois.readObject();
+            count = userList.size();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
 }

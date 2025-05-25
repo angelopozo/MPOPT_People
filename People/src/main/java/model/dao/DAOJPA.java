@@ -110,10 +110,11 @@ public class DAOJPA implements IDAO {
         if (pC != null) {
             pC.setName(p.getName());
             pC.setDateOfBirth(p.getDateOfBirth());
-            if(p.getPhoto() != null)
+            if (p.getPhoto() != null) {
                 pC.setPhotoOnlyJPA(imageIconToBytes(p.getPhoto()));
-            else
+            } else {
                 pC.setPhotoOnlyJPA(null);
+            }
             em.getTransaction().commit();
         }
         em.close();
@@ -143,11 +144,29 @@ public class DAOJPA implements IDAO {
         }
         em.getTransaction().commit();
     }
-    
-     @Override
+
+    @Override
     public int count() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
+    public class JpaUtil {
+
+        private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("nombre-de-tu-persistence-unit");
+
+        public static EntityManager getEntityManager() {
+            return emf.createEntityManager();
+        }
+    }
+
+    public int countUsers() {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            long count = (long) em.createQuery("SELECT COUNT(u) FROM User u").getSingleResult();
+            return (int) count;
+        } finally {
+            em.close();
+        }
+    }
 
 }
