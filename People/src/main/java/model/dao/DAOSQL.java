@@ -23,9 +23,7 @@ import javax.swing.ImageIcon;
 import model.entity.User;
 
 /**
- * This class implements the IDAO interface and completes the function code
- * blocks so that they can operate with a SQL DDBB. The NIF is used as the
- * primary key.
+ * This class implements the IDAO interface and completes the function code blocks so that they can operate with a SQL DDBB. The NIF is used as the primary key.
  *
  * @author Francesc Perez
  * @version 1.1.0
@@ -39,6 +37,7 @@ public class DAOSQL implements IDAO {
     private final String SQL_UPDATE = "UPDATE " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " SET name = ?, dateOfBirth = ?, photo = ? WHERE (nif = ?);";
     private final String SQL_DELETE = "DELETE FROM " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " WHERE (nif = ";
     private final String SQL_DELETE_ALL = "TRUNCATE " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE();
+    private final String SQL_COUNT = "SELECT COUNT(*) AS total FROM " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + ";";
 
     public static Connection connect() throws SQLException {
         Connection conn;
@@ -64,7 +63,7 @@ public class DAOSQL implements IDAO {
 
             if (rs != null && rs.next()) {
                 do {
-                    user = new User(rs.getString("username"), rs.getString("password"));
+                    user = new User(rs.getString("username"), rs.getString("password"), rs.getString("role"));
                     users.add(user);
                 } while (rs.next());
             }
@@ -254,30 +253,19 @@ public class DAOSQL implements IDAO {
 
     @Override
     public int count() throws Exception {
-        String sql = "SELECT COUNT(*) FROM people";
-        try (Connection conn = getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-
-            return rs.next() ? rs.getInt(1) : 0;
-        }
-    }
-
-    public int countUsers() {
         int count = 0;
-        String query = "SELECT COUNT(*) FROM " + Routes.USERS.getDbServerTABLE();
-
-        try (Connection conn = DriverManager.getConnection(
-                Routes.DB.getDbServerAddress() + Routes.DB.getDbServerComOpt(),
-                Routes.DB.getDbServerUser(),
-                Routes.DB.getDbServerPassword()); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
-
-            if (rs.next()) {
-                count = rs.getInt(1);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Connection conn;
+        Statement instruction;
+        ResultSet rs;
+        conn = connect();
+        instruction = conn.createStatement();
+        rs = instruction.executeQuery(SQL_COUNT);
+        if (rs.next()) {
+            count = rs.getInt("total");
         }
-
+        rs.close();
+        instruction.close();
+        disconnect(conn);
         return count;
     }
 

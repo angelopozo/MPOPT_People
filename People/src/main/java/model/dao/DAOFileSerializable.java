@@ -13,10 +13,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
- * This class implements the IDAO interface and completes the code of the
- * functions so that they can work with files to store objects. User data is
- * saved in the "dataFileS.ser" file and the associated photos, if any, are
- * saved with the name NIF.png in the "Photos" folder.
+ * This class implements the IDAO interface and completes the code of the functions so that they can work with files to store objects. User data is saved in the "dataFileS.ser" file and the associated photos, if any, are saved with the name NIF.png in the "Photos" folder.
  *
  * @author Francesc Perez
  * @version 1.1.0
@@ -60,7 +57,7 @@ public class DAOFileSerializable implements IDAO {
         ObjectInputStream ois = null;
         FileInputStream fIS = null;
         try {
-            
+
             fIS = new FileInputStream(Routes.FILES.getDataFile());
             ois = new ObjectInputStream(fIS);
             Person pr;
@@ -80,7 +77,7 @@ public class DAOFileSerializable implements IDAO {
                 fIS.close();
             }
         }
-        
+
         return people;
     }
 
@@ -102,7 +99,7 @@ public class DAOFileSerializable implements IDAO {
             //Do nothing
 //            System.out.println("El archivo está vacío y no se puede crear"
 //                    + "el objeto ObjectInputStream");
-        }finally {
+        } finally {
             if (ois != null) {
                 ois.close();
             }
@@ -167,14 +164,32 @@ public class DAOFileSerializable implements IDAO {
     }
 
     @Override
-    public void update(Person p) throws FileNotFoundException, IOException, ClassNotFoundException{
+    public void update(Person p) throws FileNotFoundException, IOException, ClassNotFoundException {
         delete(p);
         insert(p);
     }
-    
-     @Override
-    public int count() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
+    @Override
+    public int count() throws Exception {
+        int count = 0;
+        ObjectInputStream ois = null;
+        FileInputStream fIS = null;
+        try {
+            fIS = new FileInputStream(Routes.FILES.getDataFile());
+            ois = new ObjectInputStream(fIS);
+            Person pr;
+            while ((pr = (Person) ois.readObject()) != null) {
+                count++;
+            }
+            ois.close();
+        } finally {
+            if (ois != null) {
+                ois.close();
+            }
+            if (fIS != null) {
+                fIS.close();
+            }
+        }
+        return count;
+    }
 }
