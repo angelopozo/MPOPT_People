@@ -25,9 +25,14 @@ import org.jdatepicker.JDatePicker;
  * @version 1.1.0
  */
 public class Insert extends javax.swing.JDialog {
+    
+    private String[] loggedUser;
 
-    public Insert(java.awt.Frame parent, boolean modal) {
+    public Insert(java.awt.Frame parent, boolean modal, String[] loggedUser) {
         super(parent, modal);
+        
+        this.loggedUser=loggedUser;
+        verificar();
         initComponents();
          PromptSupport promptSupport1 = new PromptSupport("Enter NIF number, letter is calculated", nif);
         PromptSupport promptSupport2 = new PromptSupport("Enter full name", name);
@@ -35,6 +40,14 @@ public class Insert extends javax.swing.JDialog {
         DropTarget dropTarget = new DropTarget(photo, d);
         insert.setEnabled(false);
     }
+    
+      public void verificar(){
+        if(loggedUser[2].equalsIgnoreCase("empleado")){
+            JOptionPane.showConfirmDialog(rootPane, "Los empelados no pueden acceder. vuelve al menu. ");
+            this.setVisible(false);
+        }
+    }
+    
 
     public JButton getReset() {
         return reset;

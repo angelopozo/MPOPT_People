@@ -5,6 +5,7 @@
  */
 package view;
 
+
 import static utils.DataValidation.calculateNifLetter;
 import static utils.DataValidation.isNumber;
 
@@ -25,12 +26,28 @@ public class Delete extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public Delete(java.awt.Frame parent, boolean modal) {
+    
+    private String[] loggedUser;
+    public Delete(java.awt.Frame parent, boolean modal,String[] loggedUser ) {
+    
+
+    
         super(parent, modal);
         initComponents();
+        this.loggedUser=loggedUser;
+        verificar();
+        
         setLocationRelativeTo(null);
     }
+    
+    public void verificar(){
+        if(loggedUser[2].equalsIgnoreCase("empleado")){
+            JOptionPane.showConfirmDialog(rootPane, "Los empelados no pueden acceder. vuelve al menu. ");
+            this.setVisible(false);
+        }
+    }
 
+  
     public JButton getDelete() {
         return delete;
     }
@@ -83,6 +100,11 @@ public class Delete extends javax.swing.JDialog {
         delete.setMaximumSize(new java.awt.Dimension(187, 33));
         delete.setMinimumSize(new java.awt.Dimension(187, 33));
         delete.setPreferredSize(new java.awt.Dimension(187, 33));
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -176,6 +198,10 @@ public class Delete extends javax.swing.JDialog {
         nif.setEditable(true);
         delete.setEnabled(false);
     }//GEN-LAST:event_resetActionPerformed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteActionPerformed
 
     /**
      * @param args the command line arguments

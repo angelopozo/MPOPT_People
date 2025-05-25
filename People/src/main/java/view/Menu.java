@@ -18,13 +18,26 @@ import model.dao.DAOSQL;
 public class Menu extends javax.swing.JFrame {
 
     private DAOSQL userdb = new DAOSQL();
+    
+    private String[] loggedUser;
 
-    public Menu() {
+    public Menu(String[] loggedUser) {
         initComponents();
+        this.loggedUser=loggedUser;
+        verificar();
         try {
             setIconImage(new ImageIcon(ImageIO.read(new File("images/logo.png"))).getImage());
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Application logo is not available", "WARNING MESSAGE", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+      public void verificar(){
+        if(loggedUser[2].equalsIgnoreCase("empleado")){
+            insert.setVisible(false);
+            update.setVisible(false);
+            delete.setVisible(false);
+            deleteAll.setVisible(false);
         }
     }
 
