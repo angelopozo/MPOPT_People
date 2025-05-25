@@ -18,8 +18,7 @@ import javax.persistence.TypedQuery;
 import javax.swing.ImageIcon;
 
 /**
- * This class implements the IDAO interface and completes the function code
- * blocks so that they can operate with object DDBB. The NIF is used as the key.
+ * This class implements the IDAO interface and completes the function code blocks so that they can operate with object DDBB. The NIF is used as the key.
  *
  * @author Francesc Perez
  * @version 1.1.0
@@ -110,10 +109,11 @@ public class DAOJPA implements IDAO {
         if (pC != null) {
             pC.setName(p.getName());
             pC.setDateOfBirth(p.getDateOfBirth());
-            if(p.getPhoto() != null)
+            if (p.getPhoto() != null) {
                 pC.setPhotoOnlyJPA(imageIconToBytes(p.getPhoto()));
-            else
+            } else {
                 pC.setPhotoOnlyJPA(null);
+            }
             em.getTransaction().commit();
         }
         em.close();
@@ -143,11 +143,12 @@ public class DAOJPA implements IDAO {
         }
         em.getTransaction().commit();
     }
-    
-     @Override
-    public int count() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
 
+    @Override
+    public int count() throws Exception {
+        EntityManager em = emf.createEntityManager();
+        Long count = em.createQuery("SELECT COUNT(p) FROM Person p", Long.class).getSingleResult();
+        em.close();
+        return count.intValue();
+    }
 }

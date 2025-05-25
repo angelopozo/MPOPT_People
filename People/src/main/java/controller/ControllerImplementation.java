@@ -46,9 +46,7 @@ import org.jdatepicker.DateModel;
 import view.Login;
 
 /**
- * This class starts the visual part of the application and programs and manages
- * all the events that it can receive from it. For each event received the
- * controller performs an action.
+ * This class starts the visual part of the application and programs and manages all the events that it can receive from it. For each event received the controller performs an action.
  *
  * @author Francesc Perez
  * @version 1.1.0
@@ -67,14 +65,13 @@ public class ControllerImplementation implements IController, ActionListener {
     private Update update;
     private ReadAll readAll;
     private Login login;
-    
-    
-      public static ArrayList<Person> s;
+
+    public static String[] loggedUser;
+
+    public static ArrayList<Person> s;
 
     /**
-     * This constructor allows the controller to know which data storage option
-     * the user has chosen.Schedule an event to deploy when the user has made
-     * the selection.
+     * This constructor allows the controller to know which data storage option the user has chosen.Schedule an event to deploy when the user has made the selection.
      *
      * @param dSS
      */
@@ -82,7 +79,7 @@ public class ControllerImplementation implements IController, ActionListener {
         this.dSS = dSS;
         ((JButton) (dSS.getAccept()[0])).addActionListener(this);
     }
-    
+
     public ControllerImplementation(IDAO dao, Menu menu) {
         this.dao = dao;
         this.menu = menu;
@@ -91,10 +88,10 @@ public class ControllerImplementation implements IController, ActionListener {
         this.dSS = null;
     }
 
-    private void initView(){
+    private void initView() {
         menu.setVisible(true);
         updatePeopleCount();
-    }  
+    }
 
     private void initController() {
         menu.getCount().addActionListener(e -> updatePeopleCount());
@@ -103,6 +100,7 @@ public class ControllerImplementation implements IController, ActionListener {
         menu.getInsert().addActionListener(e -> updatePeopleCount());
         menu.getDelete().addActionListener(e -> updatePeopleCount());
         menu.getDeleteAll().addActionListener(e -> updatePeopleCount());
+        menu.getCount().addActionListener(e -> handleCountAction());
     }
 
     private void updatePeopleCount() {
@@ -115,8 +113,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * With this method, the application is started, asking the user for the
-     * chosen storage system.
+     * With this method, the application is started, asking the user for the chosen storage system.
      */
     @Override
     public void start() {
@@ -125,11 +122,11 @@ public class ControllerImplementation implements IController, ActionListener {
                     Routes.DB.getDbServerUser(), Routes.DB.getDbServerPassword());
             if (conn != null) {
                 try (Statement stmt = conn.createStatement()) {
-                    stmt.executeUpdate("create database if not exists " + Routes.DB.getDbServerDB() + ";");
                     stmt.executeUpdate("create table if not exists " + Routes.DB.getDbServerDB() + "." + Routes.USERS.getDbServerTABLE() + "("
                             + "id int primary key auto_increment not null, "
                             + "username varchar(50), "
-                            + "password varchar(50) );");
+                            + "password varchar(50), "
+                            + "role varchar(50) );");
                 }
                 conn.close();
             }
@@ -143,8 +140,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This receives method handles the events of the visual part. Each event
-     * has an associated action.
+     * This receives method handles the events of the visual part. Each event has an associated action.
      *
      * @param e The event generated in the visual part
      */
@@ -158,12 +154,9 @@ public class ControllerImplementation implements IController, ActionListener {
             } catch (Exception ex) {
                 Logger.getLogger(ControllerImplementation.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else if (e.getSource() == menu.getCount()) {
+            handleCountAction();
         } else if (e.getSource() == menu.getInsert()) {
-             try {
-                handleSignInAction();
-            } catch (Exception ex) {
-              Logger.getLogger(ControllerImplementation.class.getName()).log(Level.SEVERE, null, ex);
-            }  
             handleInsertAction();
         } else if (insert != null && e.getSource() == insert.getInsert()) {
             handleInsertPerson();
@@ -187,22 +180,45 @@ public class ControllerImplementation implements IController, ActionListener {
             handleDeleteAll();
         }
     }
-    
+
     private void handleSignInAction() throws Exception {
         ArrayList<User> users = DAOSQL.class.cast(userdb).loadData();
         if (users.isEmpty()) {
             JOptionPane.showMessageDialog(login, "There are no registered users in the database. Please add a user to access the app.", "Login - People v1.1.0", JOptionPane.ERROR_MESSAGE);
         } else {
+            boolean authenticated = false;
             for (User user : users) {
                 if (login.getUsername().getText().equals(user.getUsername()) && login.getPassword().getText().equals(user.getPassword())) {
-                    JOptionPane.showMessageDialog(login, "You have successfully signed in. Welcome " + login.getUsername().getText() + "!", "Login - People v1.1.0", JOptionPane.INFORMATION_MESSAGE);
+                    authenticated = true;
+                    loggedUser = new String[]{user.getUsername(), user.getPassword(), user.getRole()};
+                    JOptionPane.showMessageDialog(login, "You have successfully signed in. Welcome " + login.getUsername().getText() + "!", "Login", JOptionPane.INFORMATION_MESSAGE);
                     login.setVisible(false);
                     setupMenu();
                     break;
-                } else {
-                    JOptionPane.showMessageDialog(login, "Invalid username or password. Please, try again.", "Login - People v1.1.0", JOptionPane.ERROR_MESSAGE);
                 }
             }
+            if (!authenticated) {
+                JOptionPane.showMessageDialog(login, "Invalid username or password. Please, try again.", "Login", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void handleCountAction() {
+        try {
+            int count = dao.count();
+            JOptionPane.showMessageDialog(
+                    menu,
+                    "Número de personas registradas: " + count,
+                    "Conteo",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    menu,
+                    "Error al obtener el conteo: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
@@ -210,7 +226,7 @@ public class ControllerImplementation implements IController, ActionListener {
         String daoSelected = ((javax.swing.JCheckBox) (dSS.getAccept()[1])).getText();
         dSS.dispose();
         switch (daoSelected) {
-            case  Constants.ARRAYLIST:
+            case Constants.ARRAYLIST:
                 dao = new DAOArrayList();
                 break;
             case Constants.HASHMAP:
@@ -300,7 +316,8 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     private void setupMenu() {
-        menu = new Menu();
+
+        menu = new Menu(loggedUser);
         menu.setVisible(true);
         menu.getInsert().addActionListener(this);
         menu.getRead().addActionListener(this);
@@ -309,15 +326,15 @@ public class ControllerImplementation implements IController, ActionListener {
         menu.getReadAll().addActionListener(this);
         menu.getDeleteAll().addActionListener(this);
     }
-    
-     private void setupLogin() {
+
+    private void setupLogin() {
         login = new Login();
         login.getSignIn().addActionListener(this);
         login.setVisible(true);
     }
 
     private void handleInsertAction() {
-        insert = new Insert(menu, true);
+        insert = new Insert(menu, true, loggedUser);
         insert.getInsert().addActionListener(this);
         insert.setVisible(true);
     }
@@ -346,7 +363,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     private void handleReadAction() {
-        
+
         read = new Read(menu, true);
         read.getRead().addActionListener(this);
         read.setVisible(true);
@@ -376,7 +393,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     public void handleDeleteAction() {
-        delete = new Delete(menu, true);
+        delete = new Delete(menu, true, loggedUser);
         delete.getDelete().addActionListener(this);
         delete.setVisible(true);
     }
@@ -390,7 +407,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     public void handleUpdateAction() {
-        update = new Update(menu, true);
+        update = new Update(menu, true, loggedUser);
         update.getUpdate().addActionListener(this);
         update.getRead().addActionListener(this);
         update.setVisible(true);
@@ -481,28 +498,31 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     public void handleDeleteAll() {
-        Object[] options = {"Yes", "No"};
-        //int answer = JOptionPane.showConfirmDialog(menu, "Are you sure to delete all people registered?", "Delete All - People v1.1.0", 0, 0);
-        int answer = JOptionPane.showOptionDialog(
-        menu,
-        "Are you sure you want to delete all registered people?", 
-        "Delete All - People v1.1.0",
-        JOptionPane.YES_NO_OPTION,
-        JOptionPane.WARNING_MESSAGE,
-        null,
-        options,
-        options[1] // Default selection is "No"
-    );
 
-        if (answer == 0) {
-            deleteAll();
+        if (loggedUser[2].equalsIgnoreCase("employee")) {
+            JOptionPane.showMessageDialog(menu, "Employees cannot access this option.");
+            return;
+        } else {
+            Object[] options = {"Yes", "No"};
+            int answer = JOptionPane.showOptionDialog(
+                    menu,
+                    "Are you sure you want to delete all registered people?",
+                    "Delete All - People v1.1.0",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    options,
+                    options[1] // Default selection is "No"
+            );
+
+            if (answer == 0) {
+                deleteAll();
+            }
         }
     }
-    
+
     /**
-     * This function inserts the Person object with the requested NIF, if it
-     * doesn't exist. If there is any access problem with the storage device,
-     * the program stops.
+     * This function inserts the Person object with the requested NIF, if it doesn't exist. If there is any access problem with the storage device, the program stops.
      *
      * @param p Person to insert
      */
@@ -511,7 +531,7 @@ public class ControllerImplementation implements IController, ActionListener {
         try {
             if (dao.read(p) == null) {
                 dao.insert(p);
-            JOptionPane.showMessageDialog(insert,"Person inserted succesfully!", insert.getTitle(), JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(insert, "Person inserted succesfully!", insert.getTitle(), JOptionPane.INFORMATION_MESSAGE);
             } else {
                 throw new PersonException(p.getNif() + " is registered and can not "
                         + "be INSERTED.");
@@ -532,9 +552,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function updates the Person object with the requested NIF, if it
-     * doesn't exist. NIF can not be aupdated. If there is any access problem
-     * with the storage device, the program stops.
+     * This function updates the Person object with the requested NIF, if it doesn't exist. NIF can not be aupdated. If there is any access problem with the storage device, the program stops.
      *
      * @param p Person to update
      */
@@ -556,9 +574,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function deletes the Person object with the requested NIF, if it
-     * exists. If there is any access problem with the storage device, the
-     * program stops.
+     * This function deletes the Person object with the requested NIF, if it exists. If there is any access problem with the storage device, the program stops.
      *
      * @param p Person to read
      */
@@ -567,7 +583,7 @@ public class ControllerImplementation implements IController, ActionListener {
         try {
             if (dao.read(p) != null) {
                 dao.delete(p);
-                 int input = JOptionPane.showConfirmDialog(delete, "Are you sure you want to delete this person?", delete.getTitle(), JOptionPane.OK_OPTION);
+                int input = JOptionPane.showConfirmDialog(delete, "Are you sure you want to delete this person?", delete.getTitle(), JOptionPane.OK_OPTION);
                 if (input == 0) {
                     dao.delete(p);
                     JOptionPane.showMessageDialog(delete, "Person deleted succesfully!", delete.getTitle(), JOptionPane.INFORMATION_MESSAGE);
@@ -592,9 +608,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function returns the Person object with the requested NIF, if it
-     * exists. Otherwise it returns null. If there is any access problem with
-     * the storage device, the program stops.
+     * This function returns the Person object with the requested NIF, if it exists. Otherwise it returns null. If there is any access problem with the storage device, the program stops.
      *
      * @param p Person to read
      * @return Person or null
@@ -621,8 +635,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function returns the people registered. If there is any access
-     * problem with the storage device, the program stops.
+     * This function returns the people registered. If there is any access problem with the storage device, the program stops.
      *
      * @return ArrayList
      */
@@ -643,8 +656,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function deletes all the people registered. If there is any access
-     * problem with the storage device, the program stops.
+     * This function deletes all the people registered. If there is any access problem with the storage device, the program stops.
      */
     @Override
     public void deleteAll() {
