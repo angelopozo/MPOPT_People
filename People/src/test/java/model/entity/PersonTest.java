@@ -13,34 +13,39 @@ class PersonTest {
     private Person personWithFullData;
     private String nif = "12345678X";
     private String name = "John Doe";
+    private String email = "ejemplo@gmail.com";
     private Date dateOfBirth = new Date();
     private ImageIcon photo = new ImageIcon();
 
     @BeforeEach
     void setUp() {
         person = new Person(nif);
-        personWithFullData = new Person(name, nif, dateOfBirth, photo);
+        personWithFullData = new Person(name, nif, email, dateOfBirth, photo);
     }
 
     @Test
     void testConstructorNifOnly() {
         assertEquals(nif, person.getNif());
         assertNull(person.getName());
+        assertNull(person.getEmail());
         assertNull(person.getDateOfBirth());
         assertNull(person.getPhoto());
     }
 
     @Test
     void testConstructorNameAndNif() {
-        Person personWithNameAndNif = new Person(name, nif);
-        assertEquals(name, personWithNameAndNif.getName());
-        assertEquals(nif, personWithNameAndNif.getNif());
+       Person personWithNameAndNifAndPhoneNumber = new Person(name, nif, email);
+        assertEquals(name, personWithNameAndNifAndPhoneNumber.getName());
+        assertEquals(nif, personWithNameAndNifAndPhoneNumber.getNif());
+        assertEquals(email, personWithNameAndNifAndPhoneNumber.getEmail());
+    
     }
 
     @Test
     void testConstructorFullData() {
         assertEquals(name, personWithFullData.getName());
         assertEquals(nif, personWithFullData.getNif());
+        assertEquals(email, personWithFullData.getEmail());
         assertEquals(dateOfBirth, personWithFullData.getDateOfBirth());
         assertEquals(photo, personWithFullData.getPhoto());
     }
@@ -49,6 +54,10 @@ class PersonTest {
     void testGettersAndSetters() {
         person.setName("Jane Doe");
         assertEquals("Jane Doe", person.getName());
+        
+        person.setEmail("ejemplo@gmail.com");
+        assertEquals("ejemplo@gmail.com", person.getEmail());
+
 
         Date newDateOfBirth = new Date(0);
         person.setDateOfBirth(newDateOfBirth);
