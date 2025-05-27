@@ -58,7 +58,10 @@ class PersonTest {
         
         person.setEmail("ejemplo@gmail.com");
         assertEquals("ejemplo@gmail.com", person.getEmail());
-
+        
+        
+        person.setPhoneNumber("649358127");
+        assertEquals("649358127", person.getPhoneNumber());
 
         Date newDateOfBirth = new Date(0);
         person.setDateOfBirth(newDateOfBirth);
