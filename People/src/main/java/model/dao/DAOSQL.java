@@ -35,8 +35,8 @@ public class DAOSQL implements IDAO {
     private final String SQL_SELECT = "SELECT * FROM " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " WHERE (nif = ?);";
     
    
-      private final String SQL_INSERT = "INSERT INTO " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " (nif, name, Email, dateOfBirth, photo) VALUES (?, ?, ?, ?, ?);";
-    private final String SQL_UPDATE = "UPDATE " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " SET name = ?, Email = ?, dateOfBirth = ?, photo = ? WHERE (nif = ?);";
+      private final String SQL_INSERT = "INSERT INTO " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " (nif, name, Email, Phone Number, dateOfBirth, photo) VALUES (?, ?, ?, ?, ?, ?);";
+    private final String SQL_UPDATE = "UPDATE " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " SET name = ?, Email = ?, Phone Number = ?, dateOfBirth = ?, photo = ? WHERE (nif = ?);";
     
     private final String SQL_DELETE = "DELETE FROM " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE() + " WHERE (nif = ";
     private final String SQL_DELETE_ALL = "TRUNCATE " + Routes.DB.getDbServerDB() + "." + Routes.DB.getDbServerTABLE();
@@ -98,7 +98,8 @@ public class DAOSQL implements IDAO {
             String nif = rs.getString("nif");
             String name = rs.getString("name");
             String Email = rs.getString("email");
-            pReturn = new Person(name, nif, Email);
+            String phoneNumber = rs.getString("phone number");
+            pReturn = new Person(name, nif, Email, phoneNumber);
             
             Date date = rs.getDate("dateOfBirth");
             if (date != null) {
@@ -130,11 +131,12 @@ public class DAOSQL implements IDAO {
             String email = rs.getString("email");
             Date date = rs.getDate("dateOfBirth");
             String photo = rs.getString("photo");
+            String phoneNumber = rs.getString("phone number");
             if (photo != null) {
-                people.add(new Person(nif, name, email, date, new ImageIcon(photo)));
+                people.add(new Person(nif, name, email, phoneNumber, date, new ImageIcon(photo)));
                 
             } else {
-                people.add(new Person(nif, name, email, date, null));
+                people.add(new Person(nif, name, email, phoneNumber, date, null));
             }
         }
         rs.close();
@@ -167,6 +169,7 @@ public class DAOSQL implements IDAO {
         instruction.setString(1, p.getNif());
         instruction.setString(2, p.getName());
         instruction.setString(3, p.getEmail());
+        instruction.setString(4, p.getPhoneNumber());
         if (p.getDateOfBirth() != null) {
             instruction.setDate(4, new java.sql.Date((p.getDateOfBirth()).getTime()));
         } else {
@@ -208,6 +211,7 @@ public class DAOSQL implements IDAO {
         instruction = conn.prepareStatement(SQL_UPDATE);
         instruction.setString(1, p.getName());
          instruction.setString(2, p.getEmail());
+         instruction.setString(3, p.getPhoneNumber());
         if (p.getDateOfBirth() != null) {
             instruction.setDate(3, new java.sql.Date((p.getDateOfBirth()).getTime()));
         } else {

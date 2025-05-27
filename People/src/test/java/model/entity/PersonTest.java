@@ -14,13 +14,14 @@ class PersonTest {
     private String nif = "12345678X";
     private String name = "John Doe";
     private String email = "ejemplo@gmail.com";
+    private String phoneNumber = "649358127";
     private Date dateOfBirth = new Date();
     private ImageIcon photo = new ImageIcon();
 
     @BeforeEach
     void setUp() {
         person = new Person(nif);
-        personWithFullData = new Person(name, nif, email, dateOfBirth, photo);
+        personWithFullData = new Person(name, nif, email, phoneNumber, dateOfBirth, photo);
     }
 
     @Test
@@ -34,7 +35,7 @@ class PersonTest {
 
     @Test
     void testConstructorNameAndNif() {
-       Person personWithNameAndNifAndPhoneNumber = new Person(name, nif, email);
+       Person personWithNameAndNifAndPhoneNumber = new Person(name, nif, email, phoneNumber);
         assertEquals(name, personWithNameAndNifAndPhoneNumber.getName());
         assertEquals(nif, personWithNameAndNifAndPhoneNumber.getNif());
         assertEquals(email, personWithNameAndNifAndPhoneNumber.getEmail());

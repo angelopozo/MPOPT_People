@@ -17,42 +17,43 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.entity.Person;
 import org.jdatepicker.DateModel;
 import org.jdatepicker.JDatePicker;
 import utils.DataValidation;
 import static utils.DataValidation.isValidEmail;
 
 /**
- * Interface used to register a person. It is mandatory to enter at least the 
+ * Interface used to register a person. It is mandatory to enter at least the
  * NIF and the name.
+ *
  * @author Francesc Perez
  * @version 1.1.0
  */
 public class Insert extends javax.swing.JDialog {
-    
+
     private String[] loggedUser;
 
     public Insert(java.awt.Frame parent, boolean modal, String[] loggedUser) {
         super(parent, modal);
-        
-        this.loggedUser=loggedUser;
+
+        this.loggedUser = loggedUser;
         verificar();
         initComponents();
-         PromptSupport promptSupport1 = new PromptSupport("Enter NIF number, letter is calculated", nif);
+        PromptSupport promptSupport1 = new PromptSupport("Enter NIF number, letter is calculated", nif);
         PromptSupport promptSupport2 = new PromptSupport("Enter full name", name);
         PromptSupport promptSupport3 = new PromptSupport("Enter email (e.j ejemplo@gmail.com)", email);
         DropPhotoListener d = new DropPhotoListener(photo, this);
         DropTarget dropTarget = new DropTarget(photo, d);
         insert.setEnabled(false);
     }
-    
-      public void verificar(){
-        if(loggedUser[2].equalsIgnoreCase("empleado")){
+
+    public void verificar() {
+        if (loggedUser[2].equalsIgnoreCase("empleado")) {
             JOptionPane.showConfirmDialog(rootPane, "Los empelados no pueden acceder. vuelve al menu. ");
             this.setVisible(false);
         }
     }
-    
 
     public JButton getReset() {
         return reset;
@@ -77,11 +78,15 @@ public class Insert extends javax.swing.JDialog {
     public JLabel getPhoto() {
         return photo;
     }
-    
-     public JTextField getEmail() {
+
+    public JTextField getEmail() {
         return email;
     }
     
+    public JTextField getPhoneNumber() {
+        return phoneNumber;
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,6 +110,8 @@ public class Insert extends javax.swing.JDialog {
         dateOfBirth = new org.jdatepicker.JDatePicker();
         jLabel3 = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        phoneNumber = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Insert - People v1.1.0");
@@ -308,13 +315,31 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
         getContentPane().add(email, gridBagConstraints);
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setText("Phone number");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
+        getContentPane().add(jLabel4, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
+        getContentPane().add(phoneNumber, gridBagConstraints);
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void showInsert() {
         if (!name.getText().isEmpty() && !email.getText().isEmpty() && !nif.isEditable()) {
-        
+
             insert.setEnabled(true);
         } else {
             insert.setEnabled(false);
@@ -325,8 +350,8 @@ public class Insert extends javax.swing.JDialog {
         nif.setEditable(true);
         nif.setText("");
         name.setText("");
-          email.setText("");
-        
+        email.setText("");
+
         photo.setIcon(null);
         //We reset the calendar date to the current date ...
         LocalDate dateLocate = LocalDate.now();
@@ -388,18 +413,40 @@ public class Insert extends javax.swing.JDialog {
     }//GEN-LAST:event_emailKeyReleased
 
     private void emailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyTyped
-           String emailText = email.getText();
-    if (isValidEmail(emailText)) {
-        insert.setEnabled(true);
-    } else {
-        insert.setEnabled(false);
-    }
-    
+        String emailText = email.getText();
+        if (isValidEmail(emailText)) {
+            insert.setEnabled(true);
+        } else {
+            insert.setEnabled(false);
+        }
+
     }//GEN-LAST:event_emailKeyTyped
+
+    private void phoneNumberKeyReleased(java.awt.event.KeyEvent evt) {
+        showInsert();
+    }
+
+    private void phoneNumberKeyTyped(java.awt.event.KeyEvent evt) {
+        String phoneText = phoneNumber.getText();
+        if (isValidEmail(phoneText)) {
+            insert.setEnabled(true);
+        } else {
+            insert.setEnabled(false);
+        }
+
+    }
 
 
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
-        // TODO add your handling code here:
+        String phone = phoneNumber.getText().trim();
+
+        if (!DataValidation.isValidPhoneNumber(phone)) {
+            JOptionPane.showMessageDialog(this, "Invalid phone number format.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Person person = new Person();
+        person.setPhoneNumber(phone);
     }//GEN-LAST:event_insertActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -409,11 +456,15 @@ public class Insert extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField name;
     private javax.swing.JTextField nif;
+    private javax.swing.JTextField phoneNumber;
     private javax.swing.JLabel photo;
     private javax.swing.JButton reset;
     // End of variables declaration//GEN-END:variables
+
+    
 }
