@@ -189,7 +189,7 @@ public void setPostalCode(String postalCode) {
     @Override
     public String toString() {
         return "Person {" + "Name = " + name + ", NIF = " + nif
-                + ", DateOfBirth = " + dateOfBirth + ", Photo = " + (photo != null) + ", Phone Number = " + phoneNumber  +"}";
+                + ", DateOfBirth = " + dateOfBirth + ", Photo = " + (photo != null) +"}";
     }
 
 }
