@@ -46,6 +46,10 @@ public class Read extends javax.swing.JDialog {
         return nif;
     }
 
+     public JTextField getPhoneNumber() {
+        return phoneNumber;
+    }
+    
     public JLabel getPhoto() {
         return photo;
     }
@@ -334,6 +338,7 @@ public class Read extends javax.swing.JDialog {
         nif.setEditable(true);
         name.setText("");
         email.setText("");
+         phoneNumber.setText("");
         postalCode.setText("");
         photo.setIcon(null);
         //We reset the calendar date to the current date ...

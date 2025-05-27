@@ -107,6 +107,7 @@ public class DAOSQL implements IDAO {
             if (date != null) {
                 pReturn.setDateOfBirth(date);
             }
+            
             String photo = rs.getString("photo");
             if (photo != null) {
                 pReturn.setPhoto(new ImageIcon(photo));
@@ -179,6 +180,7 @@ public class DAOSQL implements IDAO {
         } else {
             instruction.setDate(6, null);
         }
+        instruction.setString(4, p.getPhoneNumber());
         if (p.getPhoto() != null) {
             String sep = File.separator;
             String filePath = Routes.DB.getFolderPhotos() + sep + p.getNif() + ".png";
@@ -198,9 +200,9 @@ public class DAOSQL implements IDAO {
                 outB.write(img[i]);
             }
             outB.close();
-            instruction.setString(5, photo.getPath());
+            instruction.setString(6, photo.getPath());
         } else {
-            instruction.setString(5, null);
+            instruction.setString(6, null);
         }
         instruction.executeUpdate();
         instruction.close();
@@ -222,6 +224,7 @@ public class DAOSQL implements IDAO {
         } else {
             instruction.setDate(5, null);
         }
+        instruction.setString(3, p.getPhoneNumber());
         if (p.getPhoto() != null) {
             String sep = File.separator;
             File imagePerson = new File(Routes.DB.getFolderPhotos() + sep + p.getNif() + ".png");

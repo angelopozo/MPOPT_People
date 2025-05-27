@@ -45,6 +45,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.entity.User;
 import org.jdatepicker.DateModel;
+import utils.DataValidation;
 import view.Login;
 
 /**
@@ -299,6 +300,7 @@ public class ControllerImplementation implements IController, ActionListener {
                         + "nif varchar(9) primary key not null, "
                         + "name varchar(50), "
                         + "email varchar(25),"
+                        + "phoneNumber varchar(50), "
                         + "postalCode varchar(25),"
                         + "dateOfBirth DATE, "
                         + "photo varchar(200) );");
@@ -350,21 +352,32 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     private void handleInsertPerson() {
-        Person p = new Person(insert.getNam().getText(), insert.getNif().getText(), insert.getEmail().getText(), insert.getPhoneNumber().getText(), insert.getPostalCode().getText());
+       
+    String rawPhone = insert.getPhoneNumber().getText();
+String phone = rawPhone.replaceAll("[\\s().-]", "").trim();
+
+if (!DataValidation.isValidPhoneNumber(phone)) {
+    JOptionPane.showMessageDialog(insert, "Incorrect phone number (must be 9 digits, e.g., 612345678)", insert.getTitle(), JOptionPane.WARNING_MESSAGE);
+    return;
+}
+
+Person p = new Person(insert.getNam().getText(), insert.getNif().getText(), insert.getEmail().getText(), phone, insert.getPostalCode().getText());
+        
 
         String emailRegex = "^[a-zA-Z0-9_+&-]+(?:.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(insert.getEmail().getText());
-        if (!matcher.matches()) {
-            JOptionPane.showMessageDialog(insert, "Incorrect format for email  (E.g., ejemplo@gmail.com )", insert.getTitle(), JOptionPane.WARNING_MESSAGE);
+       if (!matcher.matches()) {
+            JOptionPane.showMessageDialog(insert, "Incorrect format for email  (E.g., p@gmail.com )", insert.getTitle(), JOptionPane.WARNING_MESSAGE);
             return;
         }
+        
 
         String postalCodeRegex = "^(\\d{5})(?:[-\\s]?\\d{4})?$";
         Pattern pattern1 = Pattern.compile(postalCodeRegex);
-        Matcher matcher1 = pattern.matcher(insert.getPostalCode().getText().trim());
+        Matcher matcher1 = pattern1.matcher(insert.getPostalCode().getText().trim());
 
-        if (!matcher.matches()) {
+        if (!matcher1.matches()) {
             JOptionPane.showMessageDialog(insert,
                     "Incorrect format for postal code (E.g., 12345 or 12345-6789)",
                     insert.getTitle(),
@@ -402,6 +415,7 @@ public class ControllerImplementation implements IController, ActionListener {
                 DateModel<Calendar> dateModel = (DateModel<Calendar>) read.getDateOfBirth().getModel();
                 dateModel.setValue(calendar);
             }
+             read.getPhoneNumber().setText(pNew.getPhoneNumber());
             //To avoid charging former images
             if (pNew.getPhoto() != null) {
                 pNew.getPhoto().getImage().flush();
@@ -441,6 +455,7 @@ public class ControllerImplementation implements IController, ActionListener {
             if (pNew != null) {
                 update.getNam().setEnabled(true);
                 update.getEmail().setEnabled(true);
+                update.getPhoneNumber().setEnabled(true);
                 update.getPostalCode().setEnabled(true);
                 update.getDateOfBirth().setEnabled(true);
                 update.getPhoto().setEnabled(true);
@@ -448,6 +463,7 @@ public class ControllerImplementation implements IController, ActionListener {
                 update.getNam().setText(pNew.getName());
                 update.getEmail().setText(pNew.getEmail());
                 update.getPostalCode().setText(pNew.getPostalCode());
+                 update.getPhoneNumber().setText(pNew.getPhoneNumber());
                 if (pNew.getDateOfBirth() != null) {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(pNew.getDateOfBirth());
@@ -467,8 +483,17 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     public void handleUpdatePerson() {
-        if (update != null) {
-            Person p = new Person(update.getNam().getText(), update.getNif().getText(), update.getEmail().getText(), update.getPhoneNumber().getText(), update.getPostalCode().getText());
+
+String rawPhone = insert.getPhoneNumber().getText();
+String phone = rawPhone.replaceAll("[\\s().-]", "").trim();
+
+if (!DataValidation.isValidPhoneNumber(phone)) {
+    JOptionPane.showMessageDialog(insert, "Incorrect phone number (must be 9 digits, e.g., 612345678)", insert.getTitle(), JOptionPane.WARNING_MESSAGE);
+    return;
+}
+
+Person p = new Person(insert.getNam().getText(), insert.getNif().getText(), insert.getEmail().getText(), phone, insert.getPostalCode().getText());
+       
 
             String emailRegex = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
@@ -481,9 +506,9 @@ public class ControllerImplementation implements IController, ActionListener {
 
             String postalCodeRegex = "^(\\d{5})(?:[-\\s]?\\d{4})?$";
             Pattern pattern1 = Pattern.compile(postalCodeRegex);
-            Matcher matcher1 = pattern.matcher(update.getPostalCode().getText().trim());
+            Matcher matcher1 = pattern1.matcher(update.getPostalCode().getText().trim());
 
-            if (!matcher.matches()) {
+            if (!matcher1.matches()) {
                 JOptionPane.showMessageDialog(update,
                         "Incorrect format for postal code (e.g., 12345 or 12345-6789)",
                         update.getTitle(),
@@ -500,35 +525,35 @@ public class ControllerImplementation implements IController, ActionListener {
             update(p);
             update.getReset().doClick();
         }
-    }
+    
 
     public void handleReadAll() {
-        ArrayList<Person> s = readAll();
-        s = readAll();
-        if (s.isEmpty()) {
-            JOptionPane.showMessageDialog(menu, "There are not people registered yet.", "Read All - People v1.1.0", JOptionPane.WARNING_MESSAGE);
-        } else {
-            readAll = new ReadAll(menu, true);
-            DefaultTableModel model = (DefaultTableModel) readAll.getTable().getModel();
-            for (int i = 0; i < s.size(); i++) {
-                model.addRow(new Object[i]);
-                model.setValueAt(s.get(i).getNif(), i, 0);
-                model.setValueAt(s.get(i).getName(), i, 1);
-                model.setValueAt(s.get(i).getEmail(), i, 2);
-                model.setValueAt(s.get(i).getPostalCode(), i, 3);
-                if (s.get(i).getDateOfBirth() != null) {
-                    model.setValueAt(s.get(i).getDateOfBirth().toString(), i, 4);
-                } else {
-                    model.setValueAt("", i, 4);
-                }
-                if (s.get(i).getPhoto() != null) {
-                    model.setValueAt("yes", i, 5);
-                } else {
-                    model.setValueAt("no", i, 5);
-                }
+          ArrayList<Person> s = readAll();
+    if (s.isEmpty()) {
+        JOptionPane.showMessageDialog(menu, "There are no people registered yet.", "Read All - People v1.1.0", JOptionPane.WARNING_MESSAGE);
+    } else {
+        readAll = new ReadAll(menu, true);
+        DefaultTableModel model = (DefaultTableModel) readAll.getTable().getModel();
+        for (int i = 0; i < s.size(); i++) {
+            model.addRow(new Object[model.getColumnCount()]);
+            model.setValueAt(s.get(i).getNif(), i, 0);
+            model.setValueAt(s.get(i).getName(), i, 1);
+            model.setValueAt(s.get(i).getEmail(), i, 2);
+            model.setValueAt(s.get(i).getPostalCode(), i, 3);
+            if (s.get(i).getDateOfBirth() != null) {
+                model.setValueAt(s.get(i).getDateOfBirth().toString(), i, 4);
+            } else {
+                model.setValueAt("", i, 4);
             }
-            readAll.setVisible(true);
+            model.setValueAt(s.get(i).getPhoneNumber(), i, 5);
+            if (s.get(i).getPhoto() != null) {
+                model.setValueAt("yes", i, 6);
+            } else {
+                model.setValueAt("no", i, 6);
+            }
         }
+        readAll.setVisible(true);
+    }
     }
 
     public void handleDeleteAll() {
@@ -714,6 +739,11 @@ public class ControllerImplementation implements IController, ActionListener {
                 System.exit(0);
             }
         }
+    }
+
+    @Override
+    public void count() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

@@ -123,7 +123,7 @@ public class Update extends javax.swing.JDialog {
         setMinimumSize(new java.awt.Dimension(810, 280));
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
-        layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         getContentPane().setLayout(layout);
 
         update.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -133,7 +133,7 @@ public class Update extends javax.swing.JDialog {
         update.setPreferredSize(new java.awt.Dimension(194, 33));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridy = 36;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
@@ -234,7 +234,7 @@ public class Update extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridy = 36;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
@@ -243,9 +243,14 @@ public class Update extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 8)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Author: francesc.perez@stucom.com - Version 1.1.0");
+        jLabel2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jLabel2KeyPressed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 28;
         gridBagConstraints.gridwidth = 9;
         gridBagConstraints.gridheight = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -256,7 +261,7 @@ public class Update extends javax.swing.JDialog {
         read.setText("readnoVisible");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridy = 36;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 12);
         getContentPane().add(read, gridBagConstraints);
@@ -348,6 +353,11 @@ public class Update extends javax.swing.JDialog {
         phoneNumber.setMaximumSize(new java.awt.Dimension(400, 22));
         phoneNumber.setMinimumSize(new java.awt.Dimension(400, 22));
         phoneNumber.setPreferredSize(new java.awt.Dimension(400, 22));
+        phoneNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                phoneNumberKeyPressed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 9;
@@ -361,6 +371,11 @@ public class Update extends javax.swing.JDialog {
         postalCode.setMaximumSize(new java.awt.Dimension(400, 22));
         postalCode.setMinimumSize(new java.awt.Dimension(400, 22));
         postalCode.setPreferredSize(new java.awt.Dimension(400, 22));
+        postalCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                postalCodeKeyPressed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 10;
@@ -416,6 +431,7 @@ public class Update extends javax.swing.JDialog {
         nif.setText("");
         name.setText("");
         email.setText("");
+        phoneNumber.setText("");
         postalCode.setText("");
         dateOfBirth.getModel().setValue(null);
         photo.setIcon(null);
@@ -465,15 +481,7 @@ public class Update extends javax.swing.JDialog {
 
     }//GEN-LAST:event_emailActionPerformed
 
-    private void phoneNumberKeyPressed(java.awt.event.KeyEvent evt) {
-        String phoneText = phoneNumber.getText();
-        if (isValidEmail(phoneText)) {
-            update.setEnabled(true);
-        } else {
-            update.setEnabled(false);
-        }
-    }
-
+    
     private void postalCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_postalCodeKeyPressed
         String postalCodeText = postalCode.getText();
         if (isValidPostalCode(postalCodeText)) {
@@ -490,6 +498,19 @@ public class Update extends javax.swing.JDialog {
     private void postalCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_postalCodeActionPerformed
         // TODO add your handling code here if needed
     }//GEN-LAST:event_postalCodeActionPerformed
+
+    private void phoneNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_phoneNumberKeyPressed
+        String phoneText = phoneNumber.getText();
+        if (isValidEmail(phoneText)) {
+            update.setEnabled(true);
+        } else {
+            update.setEnabled(false);
+        }
+    }//GEN-LAST:event_phoneNumberKeyPressed
+
+    private void jLabel2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel2KeyPressed
 
     /**
      * @param args the command line arguments

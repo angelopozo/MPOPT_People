@@ -336,6 +336,19 @@ public class Insert extends javax.swing.JDialog {
         phoneNumber.setMaximumSize(new java.awt.Dimension(400, 22));
         phoneNumber.setMinimumSize(new java.awt.Dimension(400, 22));
         phoneNumber.setPreferredSize(new java.awt.Dimension(400, 22));
+        phoneNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phoneNumberActionPerformed(evt);
+            }
+        });
+        phoneNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                phoneNumberKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                phoneNumberKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -361,6 +374,14 @@ public class Insert extends javax.swing.JDialog {
         postalCode.setMaximumSize(new java.awt.Dimension(400, 22));
         postalCode.setMinimumSize(new java.awt.Dimension(400, 22));
         postalCode.setPreferredSize(new java.awt.Dimension(400, 22));
+        postalCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                postalCodeKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                postalCodeKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
@@ -374,20 +395,27 @@ public class Insert extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void showInsert() {
-        if (!name.getText().isEmpty() && !email.getText().isEmpty() && !postalCode.getText().isEmpty() && !nif.isEditable()) {
+   private void showInsert() {
+    System.out.println("NIF editable: " + nif.isEditable());
+    System.out.println("Campos: " + name.getText() + ", " + email.getText() + ", " + postalCode.getText() + ", " + phoneNumber.getText());
 
-            insert.setEnabled(true);
-        } else {
-            insert.setEnabled(false);
-        }
+    if (!name.getText().isEmpty() &&
+        !email.getText().isEmpty() &&
+        !postalCode.getText().isEmpty() &&
+        !nif.isEditable() &&
+        !phoneNumber.getText().isEmpty()) {
+        insert.setEnabled(true);
+    } else {
+        insert.setEnabled(false);
     }
+}
 
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
         nif.setEditable(true);
         nif.setText("");
         name.setText("");
         email.setText("");
+        phoneNumber.setText("");
         postalCode.setText("");
 
         photo.setIcon(null);
@@ -460,53 +488,43 @@ public class Insert extends javax.swing.JDialog {
 
     }//GEN-LAST:event_emailKeyTyped
 
-    private void phoneNumberKeyReleased(java.awt.event.KeyEvent evt) {
+ 
+    private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
+     
+
+
+    }//GEN-LAST:event_insertActionPerformed
+
+    private void phoneNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phoneNumberActionPerformed
+
+    private void phoneNumberKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_phoneNumberKeyReleased
         showInsert();
-    }
+    }//GEN-LAST:event_phoneNumberKeyReleased
 
-    private void phoneNumberKeyTyped(java.awt.event.KeyEvent evt) {
-        String phoneText = phoneNumber.getText();
-        if (isValidEmail(phoneText)) {
-            insert.setEnabled(true);
-        } else {
-            insert.setEnabled(false);
-        }
-
-    }
-
-    private void postalCodeKeyReleased(java.awt.event.KeyEvent evt) {
+    private void phoneNumberKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_phoneNumberKeyTyped
+        
+String phoneText = phoneNumber.getText();
+    if (DataValidation.isValidPhoneNumber(phoneText)) {
         showInsert();
+    } else {
+        insert.setEnabled(false);
+    }
+    }//GEN-LAST:event_phoneNumberKeyTyped
+
+    private void postalCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_postalCodeKeyReleased
+           showInsert();
     }//GEN-LAST:event_postalCodeKeyReleased
 
-    private void postalCodeKeyTyped(java.awt.event.KeyEvent evt) {
-        String postalCodeText = postalCode.getText();
+    private void postalCodeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_postalCodeKeyTyped
+          String postalCodeText = postalCode.getText();
         if (isValidPostalCode(postalCodeText)) {
             insert.setEnabled(true);
         } else {
             insert.setEnabled(false);
         }
-    }
-    private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
-        // PHONE NUMBER
-        String phone = phoneNumber.getText().trim();
-
-        if (!DataValidation.isValidPhoneNumber(phone)) {
-            JOptionPane.showMessageDialog(this, "Invalid phone number format.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // POSTAL CODE
-        String PostalCode = postalCode.getText().trim();
-
-        if (!DataValidation.isValidPostalCode(PostalCode)) {
-            JOptionPane.showMessageDialog(this, "Invalid postal code format.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        Person person = new Person();
-        person.setPhoneNumber(phone);
-        person.setPostalCode(PostalCode);
-    }//GEN-LAST:event_insertActionPerformed
+    }//GEN-LAST:event_postalCodeKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdatepicker.JDatePicker dateOfBirth;

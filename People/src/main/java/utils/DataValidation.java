@@ -6,7 +6,7 @@ package utils;
 
 /**
  * @author Francesc Perez
- * @version 1.1.0
+ * @version 1.1.008
  */
 public class DataValidation {
 
@@ -32,10 +32,10 @@ public class DataValidation {
         return email != null && email.matches(emailRegex);
     }
 
-    public static boolean isValidPhoneNumber(String phoneNumber) {
-        String phoneRegex = "^\\+?[0-9]{1,4}?[-.\\s]?\\(?\\d{1,3}\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$";
-        return phoneNumber != null && phoneNumber.matches(phoneRegex);
-    }
+public static boolean isValidPhoneNumber(String phoneNumber) {
+    return phoneNumber != null && phoneNumber.matches("^\\+?[0-9]{9,15}$");
+}
+
 
     public static boolean isValidPostalCode(String postalCode) {
         String postalCodeRegex = "^(\\d{5})(?:[-\\s]?\\d{4})?$";

@@ -43,7 +43,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-          <GridBagConstraints gridX="4" gridY="18" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="12" insetsLeft="12" insetsBottom="12" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+          <GridBagConstraints gridX="4" gridY="36" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="12" insetsLeft="12" insetsBottom="12" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -186,7 +186,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-          <GridBagConstraints gridX="6" gridY="18" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="12" insetsLeft="12" insetsBottom="12" insetsRight="24" anchor="18" weightX="0.0" weightY="0.0"/>
+          <GridBagConstraints gridX="6" gridY="36" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="12" insetsLeft="12" insetsBottom="12" insetsRight="24" anchor="18" weightX="0.0" weightY="0.0"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -198,9 +198,12 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Author: francesc.perez@stucom.com - Version 1.1.0"/>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jLabel2KeyPressed"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-          <GridBagConstraints gridX="0" gridY="10" gridWidth="9" gridHeight="9" fill="1" ipadX="0" ipadY="0" insetsTop="12" insetsLeft="24" insetsBottom="12" insetsRight="12" anchor="17" weightX="0.0" weightY="0.0"/>
+          <GridBagConstraints gridX="0" gridY="28" gridWidth="9" gridHeight="9" fill="1" ipadX="0" ipadY="0" insetsTop="12" insetsLeft="24" insetsBottom="12" insetsRight="12" anchor="17" weightX="0.0" weightY="0.0"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -210,7 +213,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-          <GridBagConstraints gridX="8" gridY="18" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="6" insetsLeft="6" insetsBottom="6" insetsRight="12" anchor="10" weightX="0.0" weightY="0.0"/>
+          <GridBagConstraints gridX="8" gridY="36" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="6" insetsLeft="6" insetsBottom="6" insetsRight="12" anchor="10" weightX="0.0" weightY="0.0"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -331,6 +334,9 @@
           <Dimension value="[400, 22]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="phoneNumberKeyPressed"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
           <GridBagConstraints gridX="4" gridY="9" gridWidth="5" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="12" insetsLeft="12" insetsBottom="12" insetsRight="24" anchor="18" weightX="0.0" weightY="0.0"/>
@@ -350,6 +356,9 @@
           <Dimension value="[400, 22]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="postalCodeKeyPressed"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
           <GridBagConstraints gridX="4" gridY="10" gridWidth="2" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="12" insetsLeft="12" insetsBottom="12" insetsRight="24" anchor="18" weightX="0.0" weightY="0.0"/>
@@ -417,7 +426,7 @@
         <CodeExpression id="3">
           <ExpressionOrigin>
             <Value type="[I" editor="org.netbeans.modules.form.layoutsupport.delegates.GridBagLayoutSupport$IntArrayPropertyEditor">
-              <PropertyValue value="[0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0]"/>
+              <PropertyValue value="[0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0]"/>
             </Value>
           </ExpressionOrigin>
         </CodeExpression>
@@ -479,7 +488,7 @@
       <Parameters>
         <CodeExpression id="8">
           <ExpressionOrigin>
-            <Value type="int" value="18"/>
+            <Value type="int" value="36"/>
           </ExpressionOrigin>
         </CodeExpression>
       </Parameters>
@@ -1087,7 +1096,7 @@
       <Parameters>
         <CodeExpression id="52">
           <ExpressionOrigin>
-            <Value type="int" value="18"/>
+            <Value type="int" value="36"/>
           </ExpressionOrigin>
         </CodeExpression>
       </Parameters>
@@ -1184,7 +1193,7 @@
       <Parameters>
         <CodeExpression id="59">
           <ExpressionOrigin>
-            <Value type="int" value="10"/>
+            <Value type="int" value="28"/>
           </ExpressionOrigin>
         </CodeExpression>
       </Parameters>
@@ -1307,7 +1316,7 @@
       <Parameters>
         <CodeExpression id="68">
           <ExpressionOrigin>
-            <Value type="int" value="18"/>
+            <Value type="int" value="36"/>
           </ExpressionOrigin>
         </CodeExpression>
       </Parameters>

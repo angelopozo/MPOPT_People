@@ -50,13 +50,13 @@ public class DAOFile implements IDAO {
             String data[] = line.split("\t");
             if (data[1].equals(p.getNif())) {
                 Date date = null;
-                if (!data[3].equals("null")) {
+                if (!data[5].equals("null")) {
                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                    date = dateFormat.parse(data[3]);
+                    date = dateFormat.parse(data[5]);
                 }
                 ImageIcon photo = null;
-                if (!data[4].equals("null")) {
-                    photo = new ImageIcon(data[4]);
+                if (!data[6].equals("null")) {
+                    photo = new ImageIcon(data[6]);
                 }
                 personToRead = new Person(data[0], data[1], data[2], data[3], data[4], date, photo);
 
@@ -80,13 +80,13 @@ public class DAOFile implements IDAO {
         while (line != null) {
             String data[] = line.split("\t");
             Date date = null;
-            if (!data[3].equals("null")) {
+            if (!data[5].equals("null")) {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                date = dateFormat.parse(data[3]);
+                date = dateFormat.parse(data[5]);
             }
             ImageIcon photo = null;
-            if (!data[4].equals("null")) {
-                photo = new ImageIcon(data[4]);
+            if (!data[6].equals("null")) {
+                photo = new ImageIcon(data[6]);
             }
 
             people.add(new Person(data[0], data[1], data[2], data[3], data[4], date, photo));
@@ -106,11 +106,11 @@ public class DAOFile implements IDAO {
         if (p.getDateOfBirth() != null) {
             DateFormat dateFormat = new SimpleDateFormat("yyy/MM/dd");
             String dateAsString = dateFormat.format(p.getDateOfBirth());
-            bw.write(p.getName() + "\t" + p.getNif() + "\t" + p.getEmail() + "\t" + p.getPostalCode() + "\t" + dateAsString + "\t");
+            bw.write(p.getName() + "\t" + p.getNif() + "\t" + p.getEmail() + "\t" + p.getPostalCode() + "\t" +  "\t" + p.getPhoneNumber() + "\t" +dateAsString + "\t");
 
         } else {
 
-            bw.write(p.getName() + "\t" + p.getNif() + "\t" + p.getEmail() + "\t" + "null" + "\t");
+            bw.write(p.getName() + "\t" + p.getNif() + "\t" + p.getEmail() + "\t" + "null" + "\t" + "\t" + p.getPhoneNumber() + "\t" );
         }
         if (p.getPhoto() != null) {
             FileOutputStream out;
