@@ -22,6 +22,7 @@ import org.jdatepicker.DateModel;
 import org.jdatepicker.JDatePicker;
 import utils.DataValidation;
 import static utils.DataValidation.isValidEmail;
+import static utils.DataValidation.isValidPostalCode;
 
 /**
  * Interface used to register a person. It is mandatory to enter at least the
@@ -88,7 +89,7 @@ public class Insert extends javax.swing.JDialog {
     public JTextField getPhoneNumber() {
         return phoneNumber;
     }
-    
+
     public JTextField getPostalCode() {
         return postalCode;
     }
@@ -374,7 +375,7 @@ public class Insert extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void showInsert() {
-        if (!name.getText().isEmpty() && !email.getText().isEmpty() && !nif.isEditable()) {
+        if (!name.getText().isEmpty() && !email.getText().isEmpty() && !postalCode.getText().isEmpty() && !nif.isEditable()) {
 
             insert.setEnabled(true);
         } else {
@@ -387,6 +388,7 @@ public class Insert extends javax.swing.JDialog {
         nif.setText("");
         name.setText("");
         email.setText("");
+        postalCode.setText("");
 
         photo.setIcon(null);
         //We reset the calendar date to the current date ...
@@ -472,7 +474,18 @@ public class Insert extends javax.swing.JDialog {
 
     }
 
+    private void postalCodeKeyReleased(java.awt.event.KeyEvent evt) {
+        showInsert();
+    }//GEN-LAST:event_postalCodeKeyReleased
 
+    private void postalCodeKeyTyped(java.awt.event.KeyEvent evt) {
+        String postalCodeText = postalCode.getText();
+        if (isValidPostalCode(postalCodeText)) {
+            insert.setEnabled(true);
+        } else {
+            insert.setEnabled(false);
+        }
+    }
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
         // PHONE NUMBER
         String phone = phoneNumber.getText().trim();
@@ -481,7 +494,7 @@ public class Insert extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Invalid phone number format.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // POSTAL CODE
         String PostalCode = postalCode.getText().trim();
 

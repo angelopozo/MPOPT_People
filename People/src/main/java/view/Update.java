@@ -19,20 +19,22 @@ import org.jdatepicker.DateModel;
 import org.jdatepicker.JDatePicker;
 import utils.DataValidation;
 import static utils.DataValidation.isValidEmail;
+import static utils.DataValidation.isValidPostalCode;
 
 /**
  * Interface used to updated a person. It is mandatory to enter the NIF.
+ *
  * @author Francesc Perez
  * @version 1.1.0
  */
 public class Update extends javax.swing.JDialog {
 
     private String[] loggedUser;
-    
+
     public Update(java.awt.Frame parent, boolean modal, String[] loggedUser) {
         super(parent, modal);
         initComponents();
-        this.loggedUser=loggedUser;
+        this.loggedUser = loggedUser;
         verificar();
         setLocationRelativeTo(null);
         DropPhotoListener d = new DropPhotoListener(photo, this);
@@ -40,9 +42,9 @@ public class Update extends javax.swing.JDialog {
         read.setVisible(false);
         update.setEnabled(false);
     }
-    
-    public void verificar(){
-        if(loggedUser[2].equalsIgnoreCase("empleado")){
+
+    public void verificar() {
+        if (loggedUser[2].equalsIgnoreCase("empleado")) {
             JOptionPane.showConfirmDialog(rootPane, "Los empelados no pueden acceder. vuelve al menu.  ");
             this.setVisible(false);
         }
@@ -56,9 +58,10 @@ public class Update extends javax.swing.JDialog {
         return read;
     }
 
-     public JTextField getNam() {
+    public JTextField getNam() {
         return name;
     }
+
     public JDatePicker getDateOfBirth() {
         return dateOfBirth;
     }
@@ -67,10 +70,6 @@ public class Update extends javax.swing.JDialog {
         return nif;
     }
 
-     
-    
-    
-
     public JLabel getPhoto() {
         return photo;
     }
@@ -78,17 +77,16 @@ public class Update extends javax.swing.JDialog {
     public JButton getReset() {
         return reset;
     }
-    
-    
-     public JTextField getEmail() {
+
+    public JTextField getEmail() {
         return email;
     }
-     
-     public JTextField getPhoneNumber() {
+
+    public JTextField getPhoneNumber() {
         return phoneNumber;
     }
-     
-     public JTextField getPostalCode() {
+
+    public JTextField getPostalCode() {
         return postalCode;
     }
 
@@ -393,7 +391,7 @@ public class Update extends javax.swing.JDialog {
         if (nif.getText().length() == 8) {
             evt.consume();
             nif.setText(calculateNifLetter(nif.getText()));
-            nif.setEditable(false);  
+            nif.setEditable(false);
             read.doClick();
         }
     }//GEN-LAST:event_nifKeyPressed
@@ -418,8 +416,9 @@ public class Update extends javax.swing.JDialog {
         nif.setText("");
         name.setText("");
         email.setText("");
+        postalCode.setText("");
         dateOfBirth.getModel().setValue(null);
-        photo.setIcon(null); 
+        photo.setIcon(null);
         name.setEnabled(false);
         photo.setEnabled(false);
         //We reset the calendar date to the current date ...
@@ -451,11 +450,11 @@ public class Update extends javax.swing.JDialog {
 
     private void emailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyPressed
         String emailText = email.getText();
-    if (isValidEmail(emailText)) {
-        update.setEnabled(true);
-    } else {
-        update.setEnabled(false);
-    }
+        if (isValidEmail(emailText)) {
+            update.setEnabled(true);
+        } else {
+            update.setEnabled(false);
+        }
     }//GEN-LAST:event_emailKeyPressed
 
     private void emailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyReleased
@@ -463,19 +462,35 @@ public class Update extends javax.swing.JDialog {
     }//GEN-LAST:event_emailKeyReleased
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
-       
+
     }//GEN-LAST:event_emailActionPerformed
-    
-    
-    private void phoneNumberKeyPressed(java.awt.event.KeyEvent evt) {                                 
+
+    private void phoneNumberKeyPressed(java.awt.event.KeyEvent evt) {
         String phoneText = phoneNumber.getText();
-    if (isValidEmail(phoneText)) {
-        update.setEnabled(true);
-    } else {
-        update.setEnabled(false);
+        if (isValidEmail(phoneText)) {
+            update.setEnabled(true);
+        } else {
+            update.setEnabled(false);
+        }
     }
-    }  
-    
+
+    private void postalCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_postalCodeKeyPressed
+        String postalCodeText = postalCode.getText();
+        if (isValidPostalCode(postalCodeText)) {
+            update.setEnabled(true);
+        } else {
+            update.setEnabled(false);
+        }
+    }//GEN-LAST:event_postalCodeKeyPressed
+
+    private void postalCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_postalCodeKeyReleased
+        // TODO add your handling code here if needed
+    }//GEN-LAST:event_postalCodeKeyReleased
+
+    private void postalCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_postalCodeActionPerformed
+        // TODO add your handling code here if needed
+    }//GEN-LAST:event_postalCodeActionPerformed
+
     /**
      * @param args the command line arguments
      */

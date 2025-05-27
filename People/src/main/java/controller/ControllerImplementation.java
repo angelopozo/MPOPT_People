@@ -34,6 +34,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.*;
@@ -46,7 +48,9 @@ import org.jdatepicker.DateModel;
 import view.Login;
 
 /**
- * This class starts the visual part of the application and programs and manages all the events that it can receive from it. For each event received the controller performs an action.
+ * This class starts the visual part of the application and programs and manages
+ * all the events that it can receive from it. For each event received the
+ * controller performs an action.
  *
  * @author Francesc Perez
  * @version 1.1.0
@@ -71,7 +75,9 @@ public class ControllerImplementation implements IController, ActionListener {
     public static ArrayList<Person> s;
 
     /**
-     * This constructor allows the controller to know which data storage option the user has chosen.Schedule an event to deploy when the user has made the selection.
+     * This constructor allows the controller to know which data storage option
+     * the user has chosen.Schedule an event to deploy when the user has made
+     * the selection.
      *
      * @param dSS
      */
@@ -113,7 +119,8 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * With this method, the application is started, asking the user for the chosen storage system.
+     * With this method, the application is started, asking the user for the
+     * chosen storage system.
      */
     @Override
     public void start() {
@@ -140,7 +147,8 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This receives method handles the events of the visual part. Each event has an associated action.
+     * This receives method handles the events of the visual part. Each event
+     * has an associated action.
      *
      * @param e The event generated in the visual part
      */
@@ -291,6 +299,7 @@ public class ControllerImplementation implements IController, ActionListener {
                         + "nif varchar(9) primary key not null, "
                         + "name varchar(50), "
                         + "email varchar(25),"
+                        + "postalCode varchar(25),"
                         + "dateOfBirth DATE, "
                         + "photo varchar(200) );");
                 stmt.close();
@@ -342,17 +351,27 @@ public class ControllerImplementation implements IController, ActionListener {
 
     private void handleInsertPerson() {
         Person p = new Person(insert.getNam().getText(), insert.getNif().getText(), insert.getEmail().getText(), insert.getPhoneNumber().getText(), insert.getPostalCode().getText());
-        
-        
-          String emailRegex = "^[a-zA-Z0-9_+&-]+(?:.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+.)+[a-zA-Z]{2,7}$";
+
+        String emailRegex = "^[a-zA-Z0-9_+&-]+(?:.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(insert.getEmail().getText());
         if (!matcher.matches()) {
             JOptionPane.showMessageDialog(insert, "Incorrect format for email  (E.g., ejemplo@gmail.com )", insert.getTitle(), JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
-        
+
+        String postalCodeRegex = "^(\\d{5})(?:[-\\s]?\\d{4})?$";
+        Pattern pattern1 = Pattern.compile(postalCodeRegex);
+        Matcher matcher1 = pattern.matcher(insert.getPostalCode().getText().trim());
+
+        if (!matcher.matches()) {
+            JOptionPane.showMessageDialog(insert,
+                    "Incorrect format for postal code (E.g., 12345 or 12345-6789)",
+                    insert.getTitle(),
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         if (insert.getDateOfBirth().getModel().getValue() != null) {
             p.setDateOfBirth(((GregorianCalendar) insert.getDateOfBirth().getModel().getValue()).getTime());
         }
@@ -375,7 +394,8 @@ public class ControllerImplementation implements IController, ActionListener {
         Person pNew = read(p);
         if (pNew != null) {
             read.getNam().setText(pNew.getName());
-             read.getEmail().setText(pNew.getEmail());
+            read.getEmail().setText(pNew.getEmail());
+            read.getPostalCode().setText(pNew.getPostalCode());
             if (pNew.getDateOfBirth() != null) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(pNew.getDateOfBirth());
@@ -421,11 +441,13 @@ public class ControllerImplementation implements IController, ActionListener {
             if (pNew != null) {
                 update.getNam().setEnabled(true);
                 update.getEmail().setEnabled(true);
+                update.getPostalCode().setEnabled(true);
                 update.getDateOfBirth().setEnabled(true);
                 update.getPhoto().setEnabled(true);
                 update.getUpdate().setEnabled(true);
                 update.getNam().setText(pNew.getName());
-                 update.getEmail().setText(pNew.getEmail());
+                update.getEmail().setText(pNew.getEmail());
+                update.getPostalCode().setText(pNew.getPostalCode());
                 if (pNew.getDateOfBirth() != null) {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(pNew.getDateOfBirth());
@@ -447,18 +469,28 @@ public class ControllerImplementation implements IController, ActionListener {
     public void handleUpdatePerson() {
         if (update != null) {
             Person p = new Person(update.getNam().getText(), update.getNif().getText(), update.getEmail().getText(), update.getPhoneNumber().getText(), update.getPostalCode().getText());
-            
-           String emailRegex = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
-        Pattern pattern = Pattern.compile(emailRegex);
-        Matcher matcher = pattern.matcher(update.getEmail().getText());
-        if (!matcher.matches()) {
-            JOptionPane.showMessageDialog(insert, "Incorrect format for email  (E.g., ejemplo@gmail.com )", insert.getTitle(), JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-            
-            
+            String emailRegex = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+            Pattern pattern = Pattern.compile(emailRegex);
+            Matcher matcher = pattern.matcher(update.getEmail().getText());
+            if (!matcher.matches()) {
+                JOptionPane.showMessageDialog(insert, "Incorrect format for email  (E.g., ejemplo@gmail.com )", insert.getTitle(), JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            String postalCodeRegex = "^(\\d{5})(?:[-\\s]?\\d{4})?$";
+            Pattern pattern1 = Pattern.compile(postalCodeRegex);
+            Matcher matcher1 = pattern.matcher(update.getPostalCode().getText().trim());
+
+            if (!matcher.matches()) {
+                JOptionPane.showMessageDialog(update,
+                        "Incorrect format for postal code (e.g., 12345 or 12345-6789)",
+                        update.getTitle(),
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             if ((update.getDateOfBirth().getModel().getValue()) != null) {
                 p.setDateOfBirth(((GregorianCalendar) update.getDateOfBirth().getModel().getValue()).getTime());
             }
@@ -483,15 +515,16 @@ public class ControllerImplementation implements IController, ActionListener {
                 model.setValueAt(s.get(i).getNif(), i, 0);
                 model.setValueAt(s.get(i).getName(), i, 1);
                 model.setValueAt(s.get(i).getEmail(), i, 2);
+                model.setValueAt(s.get(i).getPostalCode(), i, 3);
                 if (s.get(i).getDateOfBirth() != null) {
-                    model.setValueAt(s.get(i).getDateOfBirth().toString(), i, 3);
+                    model.setValueAt(s.get(i).getDateOfBirth().toString(), i, 4);
                 } else {
-                    model.setValueAt("", i, 3);
+                    model.setValueAt("", i, 4);
                 }
                 if (s.get(i).getPhoto() != null) {
-                    model.setValueAt("yes", i, 4);
+                    model.setValueAt("yes", i, 5);
                 } else {
-                    model.setValueAt("no", i, 4);
+                    model.setValueAt("no", i, 5);
                 }
             }
             readAll.setVisible(true);
@@ -523,7 +556,9 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function inserts the Person object with the requested NIF, if it doesn't exist. If there is any access problem with the storage device, the program stops.
+     * This function inserts the Person object with the requested NIF, if it
+     * doesn't exist. If there is any access problem with the storage device,
+     * the program stops.
      *
      * @param p Person to insert
      */
@@ -553,7 +588,9 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function updates the Person object with the requested NIF, if it doesn't exist. NIF can not be aupdated. If there is any access problem with the storage device, the program stops.
+     * This function updates the Person object with the requested NIF, if it
+     * doesn't exist. NIF can not be aupdated. If there is any access problem
+     * with the storage device, the program stops.
      *
      * @param p Person to update
      */
@@ -575,7 +612,9 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function deletes the Person object with the requested NIF, if it exists. If there is any access problem with the storage device, the program stops.
+     * This function deletes the Person object with the requested NIF, if it
+     * exists. If there is any access problem with the storage device, the
+     * program stops.
      *
      * @param p Person to read
      */
@@ -609,7 +648,9 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function returns the Person object with the requested NIF, if it exists. Otherwise it returns null. If there is any access problem with the storage device, the program stops.
+     * This function returns the Person object with the requested NIF, if it
+     * exists. Otherwise it returns null. If there is any access problem with
+     * the storage device, the program stops.
      *
      * @param p Person to read
      * @return Person or null
@@ -636,7 +677,8 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function returns the people registered. If there is any access problem with the storage device, the program stops.
+     * This function returns the people registered. If there is any access
+     * problem with the storage device, the program stops.
      *
      * @return ArrayList
      */
@@ -657,7 +699,8 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     /**
-     * This function deletes all the people registered. If there is any access problem with the storage device, the program stops.
+     * This function deletes all the people registered. If there is any access
+     * problem with the storage device, the program stops.
      */
     @Override
     public void deleteAll() {
