@@ -341,7 +341,7 @@ public class ControllerImplementation implements IController, ActionListener {
     }
 
     private void handleInsertPerson() {
-        Person p = new Person(insert.getNam().getText(), insert.getNif().getText(), insert.getEmail().getText(), insert.getPhoneNumber().getText());
+        Person p = new Person(insert.getNam().getText(), insert.getNif().getText(), insert.getEmail().getText(), insert.getPhoneNumber().getText(), insert.getPostalCode().getText());
         
         
           String emailRegex = "^[a-zA-Z0-9_+&-]+(?:.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+.)+[a-zA-Z]{2,7}$";
@@ -446,7 +446,7 @@ public class ControllerImplementation implements IController, ActionListener {
 
     public void handleUpdatePerson() {
         if (update != null) {
-            Person p = new Person(update.getNam().getText(), update.getNif().getText(), update.getEmail().getText(), update.getPhoneNumber().getText());
+            Person p = new Person(update.getNam().getText(), update.getNif().getText(), update.getEmail().getText(), update.getPhoneNumber().getText(), update.getPostalCode().getText());
             
            String emailRegex = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 

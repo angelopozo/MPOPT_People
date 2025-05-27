@@ -43,6 +43,8 @@ public class Insert extends javax.swing.JDialog {
         PromptSupport promptSupport1 = new PromptSupport("Enter NIF number, letter is calculated", nif);
         PromptSupport promptSupport2 = new PromptSupport("Enter full name", name);
         PromptSupport promptSupport3 = new PromptSupport("Enter email (e.j ejemplo@gmail.com)", email);
+        PromptSupport promptSupport4 = new PromptSupport("Enter phone number (e.j 649358127)", phoneNumber);
+        PromptSupport promptSupport5 = new PromptSupport("Enter postal code (e.j 06355)", postalCode);
         DropPhotoListener d = new DropPhotoListener(photo, this);
         DropTarget dropTarget = new DropTarget(photo, d);
         insert.setEnabled(false);
@@ -82,11 +84,14 @@ public class Insert extends javax.swing.JDialog {
     public JTextField getEmail() {
         return email;
     }
-    
+
     public JTextField getPhoneNumber() {
         return phoneNumber;
     }
-
+    
+    public JTextField getPostalCode() {
+        return postalCode;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -112,6 +117,8 @@ public class Insert extends javax.swing.JDialog {
         email = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         phoneNumber = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        postalCode = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Insert - People v1.1.0");
@@ -324,6 +331,10 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
         getContentPane().add(jLabel4, gridBagConstraints);
+
+        phoneNumber.setMaximumSize(new java.awt.Dimension(400, 22));
+        phoneNumber.setMinimumSize(new java.awt.Dimension(400, 22));
+        phoneNumber.setPreferredSize(new java.awt.Dimension(400, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -332,6 +343,31 @@ public class Insert extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
         getContentPane().add(phoneNumber, gridBagConstraints);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setText("Postal Code");
+        jLabel6.setMaximumSize(new java.awt.Dimension(100, 22));
+        jLabel6.setMinimumSize(new java.awt.Dimension(100, 22));
+        jLabel6.setPreferredSize(new java.awt.Dimension(100, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
+        getContentPane().add(jLabel6, gridBagConstraints);
+
+        postalCode.setMaximumSize(new java.awt.Dimension(400, 22));
+        postalCode.setMinimumSize(new java.awt.Dimension(400, 22));
+        postalCode.setPreferredSize(new java.awt.Dimension(400, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 24);
+        getContentPane().add(postalCode, gridBagConstraints);
 
         pack();
         setLocationRelativeTo(null);
@@ -438,15 +474,25 @@ public class Insert extends javax.swing.JDialog {
 
 
     private void insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertActionPerformed
+        // PHONE NUMBER
         String phone = phoneNumber.getText().trim();
 
         if (!DataValidation.isValidPhoneNumber(phone)) {
             JOptionPane.showMessageDialog(this, "Invalid phone number format.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        // POSTAL CODE
+        String PostalCode = postalCode.getText().trim();
+
+        if (!DataValidation.isValidPostalCode(PostalCode)) {
+            JOptionPane.showMessageDialog(this, "Invalid postal code format.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         Person person = new Person();
         person.setPhoneNumber(phone);
+        person.setPostalCode(PostalCode);
     }//GEN-LAST:event_insertActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -458,13 +504,14 @@ public class Insert extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField name;
     private javax.swing.JTextField nif;
     private javax.swing.JTextField phoneNumber;
     private javax.swing.JLabel photo;
+    private javax.swing.JTextField postalCode;
     private javax.swing.JButton reset;
     // End of variables declaration//GEN-END:variables
 
-    
 }

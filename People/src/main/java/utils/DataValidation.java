@@ -37,4 +37,9 @@ public class DataValidation {
         return phoneNumber != null && phoneNumber.matches(phoneRegex);
     }
 
+    public static boolean isValidPostalCode(String postalCode) {
+        String postalCodeRegex = "^(\\d{5})(?:[-\\s]?\\d{4})?$";
+        return postalCode != null && postalCode.matches(postalCodeRegex);
+    }
+
 }

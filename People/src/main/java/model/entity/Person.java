@@ -23,12 +23,15 @@ public class Person implements Serializable {
     private String nif;
     private String name;
     private String email;
+    private String phoneNumber;
+    private String postalCode;
     private Date dateOfBirth;
     @Transient
     private ImageIcon photo;
     @Lob
     private byte[] photoOnlyJPA;
-    private String phoneNumber;
+    
+
 
     public Person() {
 
@@ -49,11 +52,12 @@ public class Person implements Serializable {
      * @author Fran Perez
      * @version 1.0
      */
-    public Person(String name, String nif, String email, String phoneNumber) {
+    public Person(String name, String nif, String email, String phoneNumber, String postalCode) {
         this.name = name;
         this.nif = nif;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.postalCode = postalCode;
     }
 
     /**
@@ -66,11 +70,12 @@ public class Person implements Serializable {
      * @param dateOfBirth
      * @param photo
      */
-    public Person(String name, String nif, String email, String phoneNumber, Date dateOfBirth, ImageIcon photo) {
+    public Person(String name, String nif, String email, String phoneNumber, String postalCode, Date dateOfBirth, ImageIcon photo) {
         this.name = name;
         this.nif = nif;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.postalCode = postalCode;
         this.dateOfBirth = dateOfBirth;
         this.photo = photo;
     }
@@ -131,6 +136,14 @@ public class Person implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    
+    public String getPostalCode() {
+    return postalCode;
+}
+
+public void setPostalCode(String postalCode) {
+    this.postalCode = postalCode;
+}
 
     /**
      * Function used to compare two Personas. There cannot be two or more people
