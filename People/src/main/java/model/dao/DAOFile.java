@@ -24,11 +24,13 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
- * This class implements the IDAO interface and completes the code of the functions so that they can work with files. User data is saved in the "dataFile.txt" file and the associated photos, if any, are saved with the name NIF.png in the "Photos" folder.
  * This class implements the IDAO interface and completes the code of the
  * functions so that they can work with files. User data is saved in the
  * "dataFile.txt" file and the associated photos, if any, are saved with the
- * name NIF.png in the "Photos" folder.
+ * name NIF.png in the "Photos" folder. This class implements the IDAO interface
+ * and completes the code of the functions so that they can work with files.
+ * User data is saved in the "dataFile.txt" file and the associated photos, if
+ * any, are saved with the name NIF.png in the "Photos" folder.
  *
  * @author Francesc Perez
  * @version 1.1.0
@@ -104,7 +106,7 @@ public class DAOFile implements IDAO {
         if (p.getDateOfBirth() != null) {
             DateFormat dateFormat = new SimpleDateFormat("yyy/MM/dd");
             String dateAsString = dateFormat.format(p.getDateOfBirth());
-            bw.write(p.getName() + "\t" + p.getNif() + "\t" + p.getEmail() + "\t" + dateAsString + "\t");
+            bw.write(p.getName() + "\t" + p.getNif() + "\t" + p.getEmail() + "\t" + p.getPostalCode() + "\t" + dateAsString + "\t");
 
         } else {
 
@@ -155,7 +157,7 @@ public class DAOFile implements IDAO {
                 }
             } else {
 
-                textoNuevo += d[0] + "\t" + d[1] + "\t" + d[2] + "\t" + d[3] + "\t" + d[4]
+                textoNuevo += d[0] + "\t" + d[1] + "\t" + d[2] + "\t" + d[3] + "\t" + d[4] + "\t" + d[5]
                         + "\n";
             }
         }
@@ -182,17 +184,17 @@ public class DAOFile implements IDAO {
     }
 
     public int countUsers() {
-    int count = 0;
-    try (BufferedReader reader = new BufferedReader(new FileReader(Routes.getDbLocalPath()))) {
-        while (reader.readLine() != null) {
-            count++;
+        int count = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(Routes.getDbLocalPath()))) {
+            while (reader.readLine() != null) {
+                count++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    } catch (IOException e) {
-        e.printStackTrace();
+        return count;
     }
-    return count;
-}
-   
+
     public int count() throws Exception {
         int count = 0;
         FileReader fr;

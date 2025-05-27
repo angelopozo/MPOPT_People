@@ -30,17 +30,19 @@ class PersonTest {
         assertEquals(nif, person.getNif());
         assertNull(person.getName());
         assertNull(person.getEmail());
+        assertNull(person.getPostalCode());
         assertNull(person.getDateOfBirth());
         assertNull(person.getPhoto());
     }
 
     @Test
     void testConstructorNameAndNif() {
-       Person personWithNameAndNifAndPhoneNumber = new Person(name, nif, email, phoneNumber, postalCode);
+        Person personWithNameAndNifAndPhoneNumber = new Person(name, nif, email, phoneNumber, postalCode);
         assertEquals(name, personWithNameAndNifAndPhoneNumber.getName());
         assertEquals(nif, personWithNameAndNifAndPhoneNumber.getNif());
         assertEquals(email, personWithNameAndNifAndPhoneNumber.getEmail());
-    
+        assertEquals(postalCode, personWithNameAndNifAndPhoneNumber.getPostalCode());
+
     }
 
     @Test
@@ -48,6 +50,7 @@ class PersonTest {
         assertEquals(name, personWithFullData.getName());
         assertEquals(nif, personWithFullData.getNif());
         assertEquals(email, personWithFullData.getEmail());
+        assertEquals(postalCode, personWithFullData.getPostalCode());
         assertEquals(dateOfBirth, personWithFullData.getDateOfBirth());
         assertEquals(photo, personWithFullData.getPhoto());
     }
@@ -56,14 +59,13 @@ class PersonTest {
     void testGettersAndSetters() {
         person.setName("Jane Doe");
         assertEquals("Jane Doe", person.getName());
-        
+
         person.setEmail("ejemplo@gmail.com");
         assertEquals("ejemplo@gmail.com", person.getEmail());
-        
-        
+
         person.setPhoneNumber("649358127");
         assertEquals("649358127", person.getPhoneNumber());
-        
+
         person.setPostalCode("06355");
         assertEquals("06355", person.getPostalCode());
 
